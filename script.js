@@ -441,11 +441,15 @@ window.KAI = {
 };
 
 // ===== CONSOLE BRANDING =====
-console.log(
-    '%c🤖 KAI Shopping Assistant',
-    'font-size: 24px; color: #00ff88; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);'
-);
-console.log(
-    '%cPowered by Team RTX | AI-Driven Retail Experience',
-    'font-size: 12px; color: #00d4ff;'
-);
+try {
+    console.log(
+        '%c🤖 KAI Shopping Assistant',
+        'font-size: 24px; color: #00ff88; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);'
+    );
+    console.log(
+        '%cPowered by Team RTX | AI-Driven Retail Experience',
+        'font-size: 12px; color: #00d4ff;'
+    );
+} catch (e) {
+    // Ignore console styling errors
+}

@@ -13,7 +13,7 @@
 <body>
     <!-- Cursor Follower -->
     <div class="cursor-follower"></div>
-    
+
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -57,7 +57,7 @@
                 <span class="title-line fade-in-up delay-2">Shopping Assistant</span>
             </h1>
             <p class="hero-subtitle fade-in-up delay-3">
-                Experience the future of shopping with AI-powered recommendations, 
+                Experience the future of shopping with AI-powered recommendations,
                 real-time assistance, and personalized product discovery.
             </p>
             <div class="hero-cta fade-in-up delay-4">
@@ -98,7 +98,7 @@
                 <span class="section-tag">WHY CHOOSE KAI</span>
                 <h2 class="section-title">How KAI Helps You Shop Smarter</h2>
                 <p class="section-description">
-                    KAI combines cutting-edge AI technology with deep product knowledge 
+                    KAI combines cutting-edge AI technology with deep product knowledge
                     to provide you with an unparalleled shopping experience.
                 </p>
             </div>
@@ -111,7 +111,7 @@
                     </div>
                     <h3 class="feature-title">AI Chat Assistant</h3>
                     <p class="feature-description">
-                        Have natural conversations with KAI to find exactly what you need. 
+                        Have natural conversations with KAI to find exactly what you need.
                         Ask questions, get recommendations, and receive instant assistance.
                     </p>
                 </div>
@@ -125,7 +125,7 @@
                     </div>
                     <h3 class="feature-title">Smart Product Assistance</h3>
                     <p class="feature-description">
-                        Get detailed product information, compare items, and receive 
+                        Get detailed product information, compare items, and receive
                         personalized suggestions based on your preferences and needs.
                     </p>
                 </div>
@@ -137,7 +137,7 @@
                     </div>
                     <h3 class="feature-title">Personalized Recommendations</h3>
                     <p class="feature-description">
-                        KAI learns your style and preferences to suggest products 
+                        KAI learns your style and preferences to suggest products
                         you'll love. Get curated picks tailored just for you.
                     </p>
                 </div>
@@ -150,7 +150,7 @@
                     </div>
                     <h3 class="feature-title">Mock Order System</h3>
                     <p class="feature-description">
-                        Test the full shopping experience with our mock order system. 
+                        Test the full shopping experience with our mock order system.
                         Create orders, track deliveries, and manage your purchases.
                     </p>
                 </div>
@@ -169,7 +169,6 @@
                 </p>
             </div>
             <div class="products-grid" id="featured-products-grid">
-                <!-- Products will be loaded dynamically -->
                 <div class="loading-spinner">
                     <div class="spinner"></div>
                     <p>Loading products...</p>
@@ -209,7 +208,7 @@
                 <div class="cta-text">
                     <h2 class="cta-title">Ready to Shop Smarter?</h2>
                     <p class="cta-description">
-                        Start a conversation with KAI and discover a new way to find 
+                        Start a conversation with KAI and discover a new way to find
                         exactly what you're looking for.
                     </p>
                 </div>
@@ -241,7 +240,7 @@
                     </a>
                     <p class="footer-tagline">Your Smart Retail Shopping Assistant</p>
                     <p class="footer-description">
-                        Powered by advanced AI technology to help you shop smarter, 
+                        Powered by advanced AI technology to help you shop smarter,
                         find better deals, and discover products you'll love.
                     </p>
                 </div>
@@ -285,93 +284,115 @@
     <script src="script.js"></script>
     <script>
         // Load featured products
-        async function loadFeaturedProducts() {
-            try {
-                const response = await fetch('/api/products?featured=true');
-                const data = await response.json();
-                
-                const grid = document.getElementById('featured-products-grid');
-                
+        function loadFeaturedProducts() {
+            fetch('/api/products?featured=true')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                var grid = document.getElementById('featured-products-grid');
+
                 if (data.products && data.products.length > 0) {
-                    grid.innerHTML = data.products.slice(0, 6).map(product => `
-                        <div class="product-card" onclick="window.location.href='/product/${product.id}'">
-                            <div class="product-image">
-                                <img src="${product.image}" alt="${product.name}" loading="lazy">
-                                ${product.deal ? '<span class="product-badge deal">Sale</span>' : ''}
-                                ${product.featured ? '<span class="product-badge featured">Featured</span>' : ''}
-                            </div>
-                            <div class="product-info">
-                                <span class="product-category">${product.category}</span>
-                                <h3 class="product-name">${product.name}</h3>
-                                <div class="product-rating">
-                                    <span class="stars">⭐ ${product.rating}</span>
-                                    <span class="reviews">(${product.reviews.toLocaleString()} reviews)</span>
-                                </div>
-                                <div class="product-price">
-                                    <span class="current-price">$${product.price}</span>
-                                    ${product.originalPrice > product.price ? 
-                                        `<span class="original-price">$${product.originalPrice}</span>` : ''}
-                                </div>
-                                <div class="product-actions">
-                                    <a href="/chat?product=${product.id}" class="btn btn-small btn-outline" onclick="event.stopPropagation()">
-                                        Ask KAI
-                                    </a>
-                                    <a href="/product/${product.id}" class="btn btn-small btn-primary" onclick="event.stopPropagation()">
-                                        View Details
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('');
+                    var html = '';
+                    data.products.slice(0, 6).forEach(function(product) {
+                        html += '<div class="product-card" data-product-id="' + product.id + '">' +
+                            '<div class="product-image">' +
+                                '<img src="' + product.image + '" alt="' + product.name + '" loading="lazy">' +
+                                (product.deal ? '<span class="product-badge deal">Sale</span>' : '') +
+                                (product.featured ? '<span class="product-badge featured">Featured</span>' : '') +
+                            '</div>' +
+                            '<div class="product-info">' +
+                                '<span class="product-category">' + product.category + '</span>' +
+                                '<h3 class="product-name">' + product.name + '</h3>' +
+                                '<div class="product-rating">' +
+                                    '<span class="stars">⭐ ' + product.rating + '</span>' +
+                                    '<span class="reviews">(' + product.reviews.toLocaleString() + ' reviews)</span>' +
+                                '</div>' +
+                                '<div class="product-price">' +
+                                    '<span class="current-price">$' + product.price + '</span>' +
+                                    (product.originalPrice > product.price ?
+                                        '<span class="original-price">$' + product.originalPrice + '</span>' : '') +
+                                '</div>' +
+                                '<div class="product-actions">' +
+                                    '<a href="/chat?product=' + product.id + '" class="btn btn-small btn-outline" onclick="event.stopPropagation()">' +
+                                        'Ask KAI' +
+                                    '</a>' +
+                                    '<a href="/product/' + product.id + '" class="btn btn-small btn-primary" onclick="event.stopPropagation()">' +
+                                        'View Details' +
+                                    '</a>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+                    });
+                    grid.innerHTML = html;
+
+                    // Add click handlers
+                    grid.querySelectorAll('.product-card').forEach(function(card) {
+                        card.addEventListener('click', function() {
+                            var id = this.getAttribute('data-product-id');
+                            window.location.href = '/product/' + id;
+                        });
+                    });
                 } else {
                     grid.innerHTML = '<p class="no-products">No featured products available.</p>';
                 }
-            } catch (error) {
+            })
+            .catch(function(error) {
                 console.error('Error loading products:', error);
-                document.getElementById('featured-products-grid').innerHTML = 
+                document.getElementById('featured-products-grid').innerHTML =
                     '<p class="error-message">Failed to load products. Please try again later.</p>';
-            }
+            });
         }
 
         // Load deals
-        async function loadDeals() {
-            try {
-                const response = await fetch('/api/products?deal=true');
-                const data = await response.json();
-                
-                const grid = document.getElementById('deals-grid');
-                
+        function loadDeals() {
+            fetch('/api/products?deal=true')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                var grid = document.getElementById('deals-grid');
+
                 if (data.products && data.products.length > 0) {
-                    grid.innerHTML = data.products.slice(0, 4).map(product => {
-                        const savings = (product.originalPrice - product.price).toFixed(2);
-                        const savingsPercent = Math.round((1 - product.price / product.originalPrice) * 100);
-                        
-                        return `
-                            <div class="deal-card" onclick="window.location.href='/product/${product.id}'">
-                                <div class="deal-badge">-${savingsPercent}%</div>
-                                <div class="deal-image">
-                                    <img src="${product.image}" alt="${product.name}" loading="lazy">
-                                </div>
-                                <div class="deal-info">
-                                    <span class="deal-category">${product.category}</span>
-                                    <h3 class="deal-name">${product.name}</h3>
-                                    <div class="deal-price">
-                                        <span class="deal-current">$${product.price}</span>
-                                        <span class="deal-original">$${product.originalPrice}</span>
-                                    </div>
-                                    <p class="deal-savings">You save $${savings}!</p>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
+                    var html = '';
+                    data.products.slice(0, 4).forEach(function(product) {
+                        var savings = (product.originalPrice - product.price).toFixed(2);
+                        var savingsPercent = Math.round((1 - product.price / product.originalPrice) * 100);
+
+                        html += '<div class="deal-card" data-product-id="' + product.id + '">' +
+                            '<div class="deal-badge">-' + savingsPercent + '%</div>' +
+                            '<div class="deal-image">' +
+                                '<img src="' + product.image + '" alt="' + product.name + '" loading="lazy">' +
+                            '</div>' +
+                            '<div class="deal-info">' +
+                                '<span class="deal-category">' + product.category + '</span>' +
+                                '<h3 class="deal-name">' + product.name + '</h3>' +
+                                '<div class="deal-price">' +
+                                    '<span class="deal-current">$' + product.price + '</span>' +
+                                    '<span class="deal-original">$' + product.originalPrice + '</span>' +
+                                '</div>' +
+                                '<p class="deal-savings">You save $' + savings + '!</p>' +
+                            '</div>' +
+                        '</div>';
+                    });
+                    grid.innerHTML = html;
+
+                    // Add click handlers
+                    grid.querySelectorAll('.deal-card').forEach(function(card) {
+                        card.addEventListener('click', function() {
+                            var id = this.getAttribute('data-product-id');
+                            window.location.href = '/product/' + id;
+                        });
+                    });
                 }
-            } catch (error) {
+            })
+            .catch(function(error) {
                 console.error('Error loading deals:', error);
-            }
+            });
         }
 
         // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
             loadFeaturedProducts();
             loadDeals();
         });

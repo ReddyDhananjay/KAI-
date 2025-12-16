@@ -39,7 +39,7 @@
         <aside class="chat-sidebar" id="chat-sidebar">
             <div class="sidebar-header">
                 <h3>Quick Actions</h3>
-                <button class="sidebar-toggle" id="sidebar-toggle">
+                <button type="button" class="sidebar-toggle" id="sidebar-toggle" aria-label="Close sidebar">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 6L6 18M6 6l12 12"/>
                     </svg>
@@ -47,19 +47,19 @@
             </div>
             
             <div class="quick-buttons">
-                <button class="quick-btn" data-message="Recommend a product for me">
+                <button type="button" class="quick-btn" data-message="Recommend a product for me">
                     <span class="quick-icon">💡</span>
                     <span>Recommend a product</span>
                 </button>
-                <button class="quick-btn" data-message="Show me today's deals">
+                <button type="button" class="quick-btn" data-message="Show me today's deals">
                     <span class="quick-icon">🔥</span>
                     <span>Find deals</span>
                 </button>
-                <button class="quick-btn" data-message="What are the most popular items?">
+                <button type="button" class="quick-btn" data-message="What are the most popular items?">
                     <span class="quick-icon">⭐</span>
                     <span>Popular items</span>
                 </button>
-                <button class="quick-btn" data-message="I want to create a mock order">
+                <button type="button" class="quick-btn" data-message="I want to create a mock order">
                     <span class="quick-icon">🛒</span>
                     <span>Create mock order</span>
                 </button>
@@ -68,18 +68,18 @@
             <div class="sidebar-section">
                 <h4>Browse Categories</h4>
                 <div class="category-buttons">
-                    <button class="category-btn" data-message="Show me electronics">📱 Electronics</button>
-                    <button class="category-btn" data-message="Show me wearables">⌚ Wearables</button>
-                    <button class="category-btn" data-message="Show me accessories">🎧 Accessories</button>
-                    <button class="category-btn" data-message="Show me bags">🎒 Bags</button>
-                    <button class="category-btn" data-message="Show me shoes">👟 Shoes</button>
+                    <button type="button" class="category-btn" data-message="Show me electronics">📱 Electronics</button>
+                    <button type="button" class="category-btn" data-message="Show me wearables">⌚ Wearables</button>
+                    <button type="button" class="category-btn" data-message="Show me accessories">🎧 Accessories</button>
+                    <button type="button" class="category-btn" data-message="Show me bags">🎒 Bags</button>
+                    <button type="button" class="category-btn" data-message="Show me shoes">👟 Shoes</button>
                 </div>
             </div>
 
             <div class="sidebar-section popular-products">
                 <h4>Popular Products</h4>
                 <div class="popular-list" id="popular-list">
-                    <!-- Populated by JS -->
+                    <p style="color: var(--text-muted); font-size: 13px;">Loading...</p>
                 </div>
             </div>
 
@@ -105,7 +105,7 @@
         <!-- Main Chat Area -->
         <div class="chat-main">
             <div class="chat-header">
-                <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle">
+                <button type="button" class="mobile-sidebar-toggle" id="mobile-sidebar-toggle" aria-label="Open menu">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -121,7 +121,7 @@
                     </div>
                 </div>
                 <div class="chat-header-actions">
-                    <button class="header-btn" id="clear-chat" title="Clear chat">
+                    <button type="button" class="header-btn" id="clear-chat" title="Clear chat" aria-label="Clear chat">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z"/>
                         </svg>
@@ -135,7 +135,7 @@
                     <div class="message-avatar">🤖</div>
                     <div class="message-content">
                         <div class="message-bubble">
-                            <p>👋 <strong>Hello! I'm KAI, your smart shopping assistant!</strong></p>
+                            <p><strong>👋 Hello! I'm KAI, your smart shopping assistant!</strong></p>
                             <p>I'm here to help you discover amazing products, find the best deals, and make your shopping experience delightful.</p>
                             <p>Here's what I can do for you:</p>
                             <ul>
@@ -173,9 +173,8 @@
                             id="chat-input" 
                             placeholder="Ask KAI anything about products..." 
                             autocomplete="off"
-                            autofocus
                         >
-                        <button type="submit" class="send-btn" id="send-btn">
+                        <button type="submit" class="send-btn" id="send-btn" aria-label="Send message">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
                             </svg>
@@ -185,17 +184,6 @@
                 </form>
             </div>
         </div>
-
-        <!-- Product Preview Panel -->
-        <aside class="product-preview-panel" id="product-preview">
-            <div class="preview-header">
-                <h3>Product Preview</h3>
-                <button class="preview-close" id="preview-close">×</button>
-            </div>
-            <div class="preview-content" id="preview-content">
-                <p class="preview-placeholder">Click on a product in the chat to see details here.</p>
-            </div>
-        </aside>
     </main>
 
     <script src="script.js"></script>
@@ -209,7 +197,6 @@
         const chatInput = document.getElementById('chat-input');
         const chatMessages = document.getElementById('chat-messages');
         const typingIndicator = document.getElementById('typing-indicator');
-        const sendBtn = document.getElementById('send-btn');
         const clearChatBtn = document.getElementById('clear-chat');
         const sidebar = document.getElementById('chat-sidebar');
         const sidebarToggle = document.getElementById('sidebar-toggle');
@@ -217,22 +204,32 @@
 
         // Load chat history from localStorage
         function loadChatHistory() {
-            const saved = localStorage.getItem('kai_chat_history');
-            if (saved) {
-                chatHistory = JSON.parse(saved);
-                chatHistory.forEach(msg => {
-                    appendMessage(msg.role, msg.content, false);
-                });
+            try {
+                const saved = localStorage.getItem('kai_chat_history');
+                if (saved) {
+                    chatHistory = JSON.parse(saved);
+                    chatHistory.forEach(function(msg) {
+                        appendMessage(msg.role, msg.content, false);
+                    });
+                }
+            } catch (e) {
+                console.error('Error loading chat history:', e);
+                chatHistory = [];
             }
         }
 
         // Save chat history to localStorage
         function saveChatHistory() {
-            localStorage.setItem('kai_chat_history', JSON.stringify(chatHistory));
+            try {
+                localStorage.setItem('kai_chat_history', JSON.stringify(chatHistory));
+            } catch (e) {
+                console.error('Error saving chat history:', e);
+            }
         }
 
         // Format message content (convert markdown-like syntax)
         function formatMessage(content) {
+            if (!content) return '';
             return content
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -243,35 +240,36 @@
         }
 
         // Append message to chat
-        function appendMessage(role, content, save = true) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${role === 'user' ? 'user-message' : 'kai-message'}`;
+        function appendMessage(role, content, save) {
+            if (save === undefined) save = true;
             
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            var messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + (role === 'user' ? 'user-message' : 'kai-message');
+            
+            var now = new Date();
+            var time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
             if (role === 'user') {
-                messageDiv.innerHTML = `
-                    <div class="message-content">
-                        <div class="message-bubble">${formatMessage(content)}</div>
-                        <span class="message-time">${time}</span>
-                    </div>
-                    <div class="message-avatar">👤</div>
-                `;
+                messageDiv.innerHTML = 
+                    '<div class="message-content">' +
+                        '<div class="message-bubble">' + formatMessage(content) + '</div>' +
+                        '<span class="message-time">' + time + '</span>' +
+                    '</div>' +
+                    '<div class="message-avatar">👤</div>';
             } else {
-                messageDiv.innerHTML = `
-                    <div class="message-avatar">🤖</div>
-                    <div class="message-content">
-                        <div class="message-bubble">${formatMessage(content)}</div>
-                        <span class="message-time">${time}</span>
-                    </div>
-                `;
+                messageDiv.innerHTML = 
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-bubble">' + formatMessage(content) + '</div>' +
+                        '<span class="message-time">' + time + '</span>' +
+                    '</div>';
             }
             
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
             
             if (save) {
-                chatHistory.push({ role, content });
+                chatHistory.push({ role: role, content: content });
                 saveChatHistory();
             }
         }
@@ -290,8 +288,8 @@
         }
 
         // Send message to API
-        async function sendMessage(message) {
-            if (!message.trim() || isTyping) return;
+        function sendMessage(message) {
+            if (!message || !message.trim() || isTyping) return;
             
             // Add user message
             appendMessage('user', message);
@@ -300,44 +298,45 @@
             // Show typing
             showTyping();
             
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        history: chatHistory.slice(-10) // Send last 10 messages for context
-                    })
-                });
-                
-                const data = await response.json();
-                
+            // Send to API
+            fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: message,
+                    history: chatHistory.slice(-10)
+                })
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
                 hideTyping();
-                
                 if (data.message) {
                     appendMessage('assistant', data.message);
                 } else {
                     appendMessage('assistant', "I'm sorry, I couldn't process your request. Please try again.");
                 }
-            } catch (error) {
+            })
+            .catch(function(error) {
                 console.error('Chat error:', error);
                 hideTyping();
                 appendMessage('assistant', "I'm having trouble connecting right now. Please try again in a moment.");
-            }
+            });
         }
 
         // Handle form submission
-        chatForm.addEventListener('submit', (e) => {
+        chatForm.addEventListener('submit', function(e) {
             e.preventDefault();
             sendMessage(chatInput.value);
         });
 
         // Quick buttons
-        document.querySelectorAll('.quick-btn, .category-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const message = btn.dataset.message;
+        document.querySelectorAll('.quick-btn, .category-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var message = this.getAttribute('data-message');
                 if (message) {
                     sendMessage(message);
                 }
@@ -345,79 +344,90 @@
         });
 
         // Clear chat
-        clearChatBtn.addEventListener('click', () => {
+        clearChatBtn.addEventListener('click', function() {
             if (confirm('Are you sure you want to clear the chat history?')) {
                 chatHistory = [];
                 localStorage.removeItem('kai_chat_history');
-                chatMessages.innerHTML = `
-                    <div class="message kai-message">
-                        <div class="message-avatar">🤖</div>
-                        <div class="message-content">
-                            <div class="message-bubble">
-                                <p>Chat cleared! 👋 How can I help you today?</p>
-                            </div>
-                            <span class="message-time">Just now</span>
-                        </div>
-                    </div>
-                `;
+                chatMessages.innerHTML = 
+                    '<div class="message kai-message">' +
+                        '<div class="message-avatar">🤖</div>' +
+                        '<div class="message-content">' +
+                            '<div class="message-bubble">' +
+                                '<p>Chat cleared! 👋 How can I help you today?</p>' +
+                            '</div>' +
+                            '<span class="message-time">Just now</span>' +
+                        '</div>' +
+                    '</div>';
             }
         });
 
         // Sidebar toggle
-        sidebarToggle.addEventListener('click', () => {
+        sidebarToggle.addEventListener('click', function() {
             sidebar.classList.remove('open');
         });
 
-        mobileSidebarToggle.addEventListener('click', () => {
+        mobileSidebarToggle.addEventListener('click', function() {
             sidebar.classList.toggle('open');
         });
 
         // Load popular products
-        async function loadPopularProducts() {
-            try {
-                const response = await fetch('/api/products?featured=true');
-                const data = await response.json();
-                
-                const list = document.getElementById('popular-list');
+        function loadPopularProducts() {
+            fetch('/api/products?featured=true')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                var list = document.getElementById('popular-list');
                 if (data.products && data.products.length > 0) {
-                    list.innerHTML = data.products.slice(0, 4).map(p => `
-                        <div class="popular-item" onclick="sendMessage('Tell me about ${p.name}')">
-                            <img src="${p.image}" alt="${p.name}">
-                            <div class="popular-info">
-                                <span class="popular-name">${p.name}</span>
-                                <span class="popular-price">$${p.price}</span>
-                            </div>
-                        </div>
-                    `).join('');
+                    var html = '';
+                    data.products.slice(0, 4).forEach(function(p) {
+                        html += '<div class="popular-item" data-product-name="' + p.name + '">' +
+                            '<img src="' + p.image + '" alt="' + p.name + '">' +
+                            '<div class="popular-info">' +
+                                '<span class="popular-name">' + p.name + '</span>' +
+                                '<span class="popular-price">$' + p.price + '</span>' +
+                            '</div>' +
+                        '</div>';
+                    });
+                    list.innerHTML = html;
+                    
+                    // Add click handlers
+                    list.querySelectorAll('.popular-item').forEach(function(item) {
+                        item.addEventListener('click', function() {
+                            var name = this.getAttribute('data-product-name');
+                            sendMessage('Tell me about ' + name);
+                        });
+                    });
                 }
-            } catch (error) {
+            })
+            .catch(function(error) {
                 console.error('Error loading popular products:', error);
-            }
+            });
         }
 
         // Check for product query parameter
         function checkProductQuery() {
-            const params = new URLSearchParams(window.location.search);
-            const productId = params.get('product');
+            var params = new URLSearchParams(window.location.search);
+            var productId = params.get('product');
             
             if (productId) {
-                fetch(`/api/products/${productId}`)
-                    .then(res => res.json())
-                    .then(product => {
-                        if (product && product.name) {
-                            sendMessage(`Tell me about the ${product.name}`);
-                        }
-                    })
-                    .catch(err => console.error('Error fetching product:', err));
+                fetch('/api/products/' + productId)
+                .then(function(res) { return res.json(); })
+                .then(function(product) {
+                    if (product && product.name) {
+                        sendMessage('Tell me about the ' + product.name);
+                    }
+                })
+                .catch(function(err) { console.error('Error fetching product:', err); });
             }
         }
 
         // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
             loadChatHistory();
             loadPopularProducts();
             checkProductQuery();
-            chatInput.focus();
+            if (chatInput) chatInput.focus();
         });
     </script>
 </body>
