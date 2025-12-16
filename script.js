@@ -1,541 +1,727 @@
-// ===============================================
-// TEAM RTX - Interactive JavaScript
-// ===============================================
+// ===================================
+// GLOBAL STATE & CONFIGURATION
+// ===================================
 
-// ===== SMOOTH SCROLL SETUP =====
+const APP_STATE = {
+    currentPage: 'home',
+    chatHistory: [],
+    userPreferences: {
+        priceAlerts: true,
+        dealNotifications: true,
+        voiceShopping: false,
+        personalizedRecommendations: true
+    },
+    searchHistory: [],
+    isTyping: false
+};
+
+const PLATFORMS = ['Amazon', 'Flipkart', 'Myntra', 'Meesho', 'Ajio'];
+
+// Mock product database
+const MOCK_PRODUCTS = {
+    'shoes': [
+        { name: 'Nike Air Max Running Shoes', category: 'footwear', price: 3999, originalPrice: 7999, rating: 4.5, reviews: 1234, platform: 'Amazon', discount: 50, emoji: '👟' },
+        { name: 'Adidas Ultraboost Sneakers', category: 'footwear', price: 4499, originalPrice: 8999, rating: 4.7, reviews: 890, platform: 'Flipkart', discount: 50, emoji: '👟' },
+        { name: 'Puma Sports Shoes', category: 'footwear', price: 2499, originalPrice: 4999, rating: 4.3, reviews: 567, platform: 'Myntra', discount: 50, emoji: '👟' }
+    ],
+    'phone': [
+        { name: 'iPhone 15 Pro (128GB)', category: 'electronics', price: 129900, originalPrice: 134900, rating: 4.8, reviews: 3456, platform: 'Amazon', discount: 4, emoji: '📱' },
+        { name: 'iPhone 15 Pro (128GB)', category: 'electronics', price: 128900, originalPrice: 134900, rating: 4.8, reviews: 2890, platform: 'Flipkart', discount: 4, emoji: '📱' },
+        { name: 'Samsung Galaxy S24 Ultra', category: 'electronics', price: 124999, originalPrice: 139999, rating: 4.7, reviews: 2134, platform: 'Amazon', discount: 11, emoji: '📱' }
+    ],
+    'laptop': [
+        { name: 'MacBook Air M2', category: 'electronics', price: 99900, originalPrice: 119900, rating: 4.9, reviews: 1567, platform: 'Amazon', discount: 17, emoji: '💻' },
+        { name: 'Dell XPS 13', category: 'electronics', price: 89990, originalPrice: 109990, rating: 4.6, reviews: 890, platform: 'Flipkart', discount: 18, emoji: '💻' },
+        { name: 'HP Pavilion 15', category: 'electronics', price: 45999, originalPrice: 65999, rating: 4.4, reviews: 1234, platform: 'Amazon', discount: 30, emoji: '💻' }
+    ],
+    'watch': [
+        { name: 'Noise ColorFit Pro 4', category: 'electronics', price: 2499, originalPrice: 4999, rating: 4.3, reviews: 8900, platform: 'Amazon', discount: 50, emoji: '⌚' },
+        { name: 'boAt Wave Pro', category: 'electronics', price: 1999, originalPrice: 3999, rating: 4.2, reviews: 6700, platform: 'Flipkart', discount: 50, emoji: '⌚' },
+        { name: 'Fire-Boltt Phoenix Ultra', category: 'electronics', price: 1799, originalPrice: 3499, rating: 4.1, reviews: 5600, platform: 'Meesho', discount: 49, emoji: '⌚' }
+    ],
+    'headphones': [
+        { name: 'Sony WH-1000XM5', category: 'electronics', price: 26990, originalPrice: 34990, rating: 4.8, reviews: 2340, platform: 'Amazon', discount: 23, emoji: '🎧' },
+        { name: 'JBL Tune 760NC', category: 'electronics', price: 5999, originalPrice: 9999, rating: 4.5, reviews: 1890, platform: 'Flipkart', discount: 40, emoji: '🎧' },
+        { name: 'boAt Rockerz 550', category: 'electronics', price: 1499, originalPrice: 2990, rating: 4.2, reviews: 5670, platform: 'Amazon', discount: 50, emoji: '🎧' }
+    ]
+};
+
+// Top deals data
+const TOP_DEALS = [
+    { id: 1, name: 'Samsung Galaxy S24 Ultra', category: 'electronics', price: 124999, originalPrice: 139999, rating: 4.7, reviews: 2134, platform: 'Amazon', discount: 11, emoji: '📱' },
+    { id: 2, name: 'Nike Air Max Running Shoes', category: 'fashion', price: 3999, originalPrice: 7999, rating: 4.5, reviews: 1234, platform: 'Amazon', discount: 50, emoji: '👟' },
+    { id: 3, name: 'Sony WH-1000XM5 Headphones', category: 'electronics', price: 26990, originalPrice: 34990, rating: 4.8, reviews: 2340, platform: 'Amazon', discount: 23, emoji: '🎧' },
+    { id: 4, name: 'Levi\'s Denim Jacket', category: 'fashion', price: 2499, originalPrice: 5999, rating: 4.4, reviews: 890, platform: 'Myntra', discount: 58, emoji: '🧥' },
+    { id: 5, name: 'Prestige Induction Cooktop', category: 'home', price: 1899, originalPrice: 3499, rating: 4.3, reviews: 3456, platform: 'Flipkart', discount: 46, emoji: '🍳' },
+    { id: 6, name: 'Lakme Makeup Kit', category: 'beauty', price: 999, originalPrice: 1999, rating: 4.5, reviews: 5678, platform: 'Meesho', discount: 50, emoji: '💄' },
+    { id: 7, name: 'Noise ColorFit Pro 4 Smartwatch', category: 'electronics', price: 2499, originalPrice: 4999, rating: 4.3, reviews: 8900, platform: 'Amazon', discount: 50, emoji: '⌚' },
+    { id: 8, name: 'Puma Sports T-Shirt', category: 'fashion', price: 599, originalPrice: 1299, rating: 4.2, reviews: 1567, platform: 'Ajio', discount: 54, emoji: '👕' },
+    { id: 9, name: 'Philips Air Fryer', category: 'home', price: 5999, originalPrice: 10999, rating: 4.6, reviews: 2890, platform: 'Amazon', discount: 45, emoji: '🍟' },
+    { id: 10, name: 'Himalaya Face Wash Combo', category: 'beauty', price: 299, originalPrice: 599, rating: 4.4, reviews: 12340, platform: 'Flipkart', discount: 50, emoji: '🧴' },
+    { id: 11, name: 'Milton Water Bottle Set', category: 'daily', price: 499, originalPrice: 999, rating: 4.3, reviews: 4567, platform: 'Amazon', discount: 50, emoji: '🍶' },
+    { id: 12, name: 'Surf Excel Detergent 4kg', category: 'daily', price: 399, originalPrice: 599, rating: 4.5, reviews: 8901, platform: 'Flipkart', discount: 33, emoji: '🧼' }
+];
+
+// AI Response Templates
+const AI_RESPONSES = {
+    greeting: [
+        "Hello! I'm KAI, your personal shopping assistant. How can I help you find the perfect product today?",
+        "Hi there! Ready to discover amazing deals? What are you looking for?",
+        "Welcome! I'm here to help you shop smarter. What can I find for you?"
+    ],
+    searching: [
+        "Let me search across all platforms for you... 🔍",
+        "Comparing prices on Amazon, Flipkart, Myntra, and more... ⚡",
+        "Finding the best deals for you... 💫"
+    ],
+    notFound: [
+        "I couldn't find exact matches, but here are some similar products you might like!",
+        "No exact results found. Let me show you some alternatives that might interest you."
+    ],
+    recommendation: [
+        "Based on your preferences, I recommend these products:",
+        "Here are my top picks for you:",
+        "These are currently trending and highly rated:"
+    ]
+};
+
+// ===================================
+// INITIALIZATION
+// ===================================
+
 document.addEventListener('DOMContentLoaded', () => {
-    initNavbar();
-    initCursorFollower();
-    initScrollAnimations();
-    initCounters();
-    initParallax();
-    initContactForm();
-    initMobileMenu();
+    initializeApp();
+    attachEventListeners();
+    loadDeals();
 });
 
-// ===== NAVBAR SCROLL EFFECT =====
-function initNavbar() {
-    const navbar = document.getElementById('navbar');
-    const navLinks = document.querySelectorAll('.nav-link');
+function initializeApp() {
+    // Show home page by default
+    navigateToPage('home');
     
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+    // Load user preferences from localStorage if available
+    const savedPreferences = localStorage.getItem('kai_preferences');
+    if (savedPreferences) {
+        APP_STATE.userPreferences = JSON.parse(savedPreferences);
+    }
     
-    // Smooth scroll for nav links
-    navLinks.forEach(link => {
+    // Load search history
+    const savedHistory = localStorage.getItem('kai_search_history');
+    if (savedHistory) {
+        APP_STATE.searchHistory = JSON.parse(savedHistory);
+    }
+}
+
+// ===================================
+// EVENT LISTENERS
+// ===================================
+
+function attachEventListeners() {
+    // Navigation
+    document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                const navHeight = navbar.offsetHeight;
-                const targetPosition = targetSection.offsetTop - navHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-                
-                // Close mobile menu if open
-                const navMenu = document.getElementById('nav-menu');
-                const hamburger = document.getElementById('hamburger');
-                navMenu.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
+            const page = link.dataset.page;
+            navigateToPage(page);
         });
     });
-}
-
-// ===== CUSTOM CURSOR FOLLOWER =====
-function initCursorFollower() {
-    const cursorFollower = document.querySelector('.cursor-follower');
-    let mouseX = 0;
-    let mouseY = 0;
-    let cursorX = 0;
-    let cursorY = 0;
-    const speed = 0.15;
     
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-    
-    function animateCursor() {
-        const distX = mouseX - cursorX;
-        const distY = mouseY - cursorY;
-        
-        cursorX += distX * speed;
-        cursorY += distY * speed;
-        
-        cursorFollower.style.left = cursorX + 'px';
-        cursorFollower.style.top = cursorY + 'px';
-        
-        requestAnimationFrame(animateCursor);
+    // Mobile menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
     }
     
-    animateCursor();
+    // Hero CTA buttons
+    document.getElementById('startChatBtn')?.addEventListener('click', () => navigateToPage('chat'));
+    document.getElementById('viewDealsBtn')?.addEventListener('click', () => navigateToPage('deals'));
     
-    // Cursor interactions with buttons and links
-    const interactiveElements = document.querySelectorAll('a, button, .feature-card, .team-member');
-    
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursorFollower.style.transform = 'scale(2)';
-            cursorFollower.style.opacity = '0.3';
-        });
-        
-        el.addEventListener('mouseleave', () => {
-            cursorFollower.style.transform = 'scale(1)';
-            cursorFollower.style.opacity = '0.6';
-        });
-    });
-}
-
-// ===== SCROLL ANIMATIONS =====
-function initScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
-    }, observerOptions);
-    
-    // Elements to animate on scroll
-    const animateOnScroll = document.querySelectorAll(
-        '.about-grid, .feature-card, .team-member, .kai-content, .contact-content'
-    );
-    
-    animateOnScroll.forEach(el => {
-        el.classList.add('scroll-reveal');
-        observer.observe(el);
-    });
-    
-    // Parallax effect for gradient orbs
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const orbs = document.querySelectorAll('.gradient-orb');
-        
-        orbs.forEach((orb, index) => {
-            const speed = 0.5 + (index * 0.1);
-            const yPos = -(scrolled * speed);
-            orb.style.transform = `translateY(${yPos}px)`;
-        });
-    });
-}
-
-// ===== ANIMATED COUNTERS =====
-function initCounters() {
-    const counters = document.querySelectorAll('.stat-number');
-    const speed = 200; // Animation speed
-    
-    const observerOptions = {
-        threshold: 0.5
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
-                animateCounter(entry.target);
-                entry.target.classList.add('counted');
-            }
-        });
-    }, observerOptions);
-    
-    counters.forEach(counter => {
-        observer.observe(counter);
-    });
-    
-    function animateCounter(counter) {
-        const target = +counter.getAttribute('data-target');
-        const increment = target / speed;
-        let count = 0;
-        
-        const updateCount = () => {
-            count += increment;
-            
-            if (count < target) {
-                counter.textContent = Math.ceil(count);
-                requestAnimationFrame(updateCount);
-            } else {
-                counter.textContent = target;
-            }
-        };
-        
-        updateCount();
-    }
-}
-
-// ===== PARALLAX EFFECTS =====
-function initParallax() {
-    let ticking = false;
-    
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                parallaxEffect();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-    
-    function parallaxEffect() {
-        const scrolled = window.pageYOffset;
-        
-        // Hero content parallax
-        const heroContent = document.querySelector('.hero-content');
-        if (heroContent) {
-            heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
-            heroContent.style.opacity = 1 - (scrolled / 700);
-        }
-        
-        // Feature cards parallax
-        const featureCards = document.querySelectorAll('.feature-card');
-        featureCards.forEach((card, index) => {
-            const rect = card.getBoundingClientRect();
-            const scrollPercent = rect.top / window.innerHeight;
-            
-            if (scrollPercent < 1 && scrollPercent > -0.5) {
-                const speed = (index % 2 === 0) ? 20 : -20;
-                card.style.transform = `translateY(${scrollPercent * speed}px)`;
-            }
-        });
-    }
-}
-
-// ===== CONTACT FORM =====
-function initContactForm() {
-    const form = document.getElementById('contact-form');
-    
-    if (form) {
-        form.addEventListener('submit', (e) => {
+    // Chat functionality
+    document.getElementById('sendBtn')?.addEventListener('click', sendMessage);
+    document.getElementById('chatInput')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            
-            const formData = {
-                name: form.name.value,
-                email: form.email.value,
-                subject: form.subject.value,
-                message: form.message.value
-            };
-            
-            // Simulate form submission
-            console.log('Form submitted:', formData);
-            
-            // Show success message
-            showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
-            
-            // Reset form
-            form.reset();
+            sendMessage();
+        }
+    });
+    
+    // Quick action buttons
+    document.querySelectorAll('.quick-action-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const action = btn.dataset.action;
+            handleQuickAction(action);
         });
+    });
+    
+    // Suggestion chips
+    document.querySelectorAll('.suggestion-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            const query = chip.dataset.query;
+            document.getElementById('chatInput').value = query;
+            sendMessage();
+        });
+    });
+    
+    // Voice button
+    document.getElementById('voiceBtn')?.addEventListener('click', handleVoiceInput);
+    
+    // Clear chat
+    document.getElementById('clearChatBtn')?.addEventListener('click', clearChat);
+    
+    // New chat
+    document.getElementById('newChatBtn')?.addEventListener('click', clearChat);
+    
+    // Deals filters
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const category = btn.dataset.category;
+            filterDeals(category);
+        });
+    });
+    
+    // Compare search
+    document.getElementById('compareSearchBtn')?.addEventListener('click', performComparison);
+    document.getElementById('compareSearchInput')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            performComparison();
+        }
+    });
+}
+
+// ===================================
+// NAVIGATION
+// ===================================
+
+function navigateToPage(pageName) {
+    // Update state
+    APP_STATE.currentPage = pageName;
+    
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Show selected page
+    const targetPage = document.getElementById(`${pageName}-page`);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+    
+    // Update navigation links
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.dataset.page === pageName) {
+            link.classList.add('active');
+        }
+    });
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleMobileMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+}
+
+// ===================================
+// CHAT FUNCTIONALITY
+// ===================================
+
+function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    // Add user message to chat
+    addMessageToChat(message, 'user');
+    
+    // Clear input
+    input.value = '';
+    
+    // Add to search history
+    addToSearchHistory(message);
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    // Process message and generate AI response
+    setTimeout(() => {
+        hideTypingIndicator();
+        processUserQuery(message);
+    }, 1500);
+}
+
+function addMessageToChat(message, sender) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message`;
+    
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.textContent = sender === 'ai' ? '🤖' : '👤';
+    
+    const content = document.createElement('div');
+    content.className = 'message-content';
+    
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble';
+    bubble.innerHTML = message;
+    
+    const time = document.createElement('div');
+    time.className = 'message-time';
+    time.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    content.appendChild(bubble);
+    content.appendChild(time);
+    messageDiv.appendChild(avatar);
+    messageDiv.appendChild(content);
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showTypingIndicator() {
+    APP_STATE.isTyping = true;
+    const chatMessages = document.getElementById('chatMessages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message ai-message';
+    typingDiv.id = 'typingIndicator';
+    
+    typingDiv.innerHTML = `
+        <div class="message-avatar">🤖</div>
+        <div class="message-content">
+            <div class="message-bubble">
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function hideTypingIndicator() {
+    APP_STATE.isTyping = false;
+    const typingIndicator = document.getElementById('typingIndicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
     }
 }
 
-// ===== NOTIFICATION SYSTEM =====
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
+function processUserQuery(query) {
+    const lowerQuery = query.toLowerCase();
     
-    // Styles for notification
-    Object.assign(notification.style, {
-        position: 'fixed',
-        bottom: '30px',
-        right: '30px',
-        padding: '20px 30px',
-        background: type === 'success' ? 'linear-gradient(135deg, #00ff88, #00d4ff)' : '#ff006e',
-        color: '#0a0a0f',
-        borderRadius: '12px',
-        fontWeight: '600',
-        fontSize: '16px',
-        zIndex: '10000',
-        animation: 'slideInRight 0.5s ease, slideOutRight 0.5s ease 3s',
-        boxShadow: '0 10px 40px rgba(0, 255, 136, 0.3)'
+    // Detect intent
+    if (lowerQuery.includes('deal') || lowerQuery.includes('offer') || lowerQuery.includes('discount')) {
+        showDealsResponse();
+    } else if (lowerQuery.includes('compare') && (lowerQuery.includes('price') || lowerQuery.includes('iphone'))) {
+        const searchTerm = extractSearchTerm(lowerQuery);
+        showComparisonResponse(searchTerm || 'phone');
+    } else if (lowerQuery.includes('recommend') || lowerQuery.includes('suggest')) {
+        const searchTerm = extractSearchTerm(lowerQuery);
+        showRecommendationResponse(searchTerm || 'watch');
+    } else {
+        // General product search
+        const searchTerm = extractSearchTerm(lowerQuery);
+        if (searchTerm) {
+            showProductSearchResponse(searchTerm);
+        } else {
+            addMessageToChat(getRandomResponse(AI_RESPONSES.greeting), 'ai');
+        }
+    }
+}
+
+function extractSearchTerm(query) {
+    const keywords = ['shoes', 'phone', 'laptop', 'watch', 'headphones', 'iphone'];
+    for (const keyword of keywords) {
+        if (query.includes(keyword)) {
+            return keyword === 'iphone' ? 'phone' : keyword;
+        }
+    }
+    return null;
+}
+
+function showProductSearchResponse(searchTerm) {
+    const products = MOCK_PRODUCTS[searchTerm] || MOCK_PRODUCTS['shoes'];
+    
+    let response = `${getRandomResponse(AI_RESPONSES.searching)}<br><br>`;
+    response += `I found ${products.length} great options for you! Here are the best deals:<br>`;
+    
+    addMessageToChat(response, 'ai');
+    
+    // Add product cards
+    products.forEach(product => {
+        addProductCard(product);
     });
     
-    document.body.appendChild(notification);
+    // Add follow-up message
+    setTimeout(() => {
+        addMessageToChat('Would you like me to show you more options or help you with anything else? 😊', 'ai');
+    }, 500);
+}
+
+function showComparisonResponse(searchTerm) {
+    const products = MOCK_PRODUCTS[searchTerm] || MOCK_PRODUCTS['phone'];
+    
+    let response = 'I\'ve compared prices across all major platforms! Here\'s what I found:<br><br>';
+    const bestDeal = products.reduce((min, p) => p.price < min.price ? p : min);
+    response += `💡 <strong>Best Deal:</strong> ${bestDeal.name} on ${bestDeal.platform} for ₹${bestDeal.price.toLocaleString('en-IN')}<br>`;
+    
+    addMessageToChat(response, 'ai');
+    
+    // Add product cards
+    products.forEach(product => {
+        addProductCard(product);
+    });
+}
+
+function showRecommendationResponse(searchTerm) {
+    const products = MOCK_PRODUCTS[searchTerm] || MOCK_PRODUCTS['watch'];
+    
+    let response = `${getRandomResponse(AI_RESPONSES.recommendation)}<br>`;
+    
+    addMessageToChat(response, 'ai');
+    
+    // Add product cards
+    products.slice(0, 3).forEach(product => {
+        addProductCard(product);
+    });
+}
+
+function showDealsResponse() {
+    let response = '🔥 Here are today\'s hottest deals across all platforms:<br>';
+    
+    addMessageToChat(response, 'ai');
+    
+    // Show top 4 deals
+    TOP_DEALS.slice(0, 4).forEach(product => {
+        addProductCard(product);
+    });
     
     setTimeout(() => {
-        notification.remove();
-    }, 3500);
+        addMessageToChat('Want to see more deals? Click on "Top Deals" in the navigation! 🎯', 'ai');
+    }, 500);
 }
 
-// Add notification animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
+function addProductCard(product) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message ai-message';
     
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// ===== MOBILE MENU =====
-function initMobileMenu() {
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('nav-menu');
+    messageDiv.innerHTML = `
+        <div class="message-avatar">🤖</div>
+        <div class="message-content">
+            <div class="product-card">
+                <div class="product-header">
+                    <div class="product-image">${product.emoji}</div>
+                    <div class="product-info">
+                        <div class="product-title">${product.name}</div>
+                        <div class="product-rating">
+                            ⭐ ${product.rating} (${product.reviews.toLocaleString('en-IN')} reviews)
+                        </div>
+                        <div class="product-price">
+                            ₹${product.price.toLocaleString('en-IN')}
+                            <span class="product-original-price">₹${product.originalPrice.toLocaleString('en-IN')}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-platforms">
+                    <span class="platform-chip">${product.platform}</span>
+                    <span class="platform-chip">${product.discount}% OFF</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-small primary" onclick="handleBuyNow('${product.name}', '${product.platform}')">
+                        Buy on ${product.platform}
+                    </button>
+                    <button class="btn-small secondary" onclick="handleAddToCompare('${product.name}')">
+                        Compare
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
     
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            }
-        });
-    }
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// ===== PERFORMANCE OPTIMIZATION =====
-// Lazy load images when they come into view
-function initLazyLoad() {
-    const images = document.querySelectorAll('img[data-src]');
-    
-    const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.removeAttribute('data-src');
-                imageObserver.unobserve(img);
-            }
-        });
-    });
-    
-    images.forEach(img => imageObserver.observe(img));
-}
-
-// ===== UTILITY FUNCTIONS =====
-// Throttle function for scroll events
-function throttle(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+function handleQuickAction(action) {
+    const actions = {
+        'deals': 'Show me today\'s top deals',
+        'trending': 'What\'s trending right now?',
+        'recommend': 'Give me personalized recommendations'
     };
-}
-
-// Debounce function for resize events
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// ===== ADDITIONAL INTERACTIVE ELEMENTS =====
-// Add smooth hover effects to cards
-document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.feature-card, .team-member, .highlight-item');
     
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', function(e) {
-            this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-        });
-        
-        card.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            
-            this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-        });
-    });
-});
+    const query = actions[action];
+    document.getElementById('chatInput').value = query;
+    sendMessage();
+}
 
-// ===== VIDEO PLACEHOLDER INTERACTION =====
-const videoPlaceholder = document.querySelector('.video-placeholder');
-if (videoPlaceholder) {
-    videoPlaceholder.addEventListener('click', () => {
-        showNotification('Video demo coming soon!', 'info');
+function handleVoiceInput() {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        
+        recognition.lang = 'en-IN';
+        recognition.continuous = false;
+        
+        recognition.onstart = () => {
+            showToast('🎤 Listening...');
+        };
+        
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById('chatInput').value = transcript;
+            sendMessage();
+        };
+        
+        recognition.onerror = () => {
+            showToast('❌ Voice recognition failed. Please try again.');
+        };
+        
+        recognition.start();
+    } else {
+        showToast('❌ Voice input not supported in this browser');
+    }
+}
+
+function clearChat() {
+    const chatMessages = document.getElementById('chatMessages');
+    chatMessages.innerHTML = `
+        <div class="message ai-message">
+            <div class="message-avatar">🤖</div>
+            <div class="message-content">
+                <div class="message-bubble">
+                    Hello! I'm KAI, your personal shopping assistant. I can help you:
+                    <ul>
+                        <li>🔍 Find and compare products across platforms</li>
+                        <li>💰 Discover the best deals</li>
+                        <li>🎯 Get personalized recommendations</li>
+                        <li>🛒 Complete your purchase</li>
+                    </ul>
+                    What would you like to shop for today?
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        </div>
+    `;
+    APP_STATE.chatHistory = [];
+}
+
+// ===================================
+// DEALS FUNCTIONALITY
+// ===================================
+
+function loadDeals() {
+    const dealsGrid = document.getElementById('dealsGrid');
+    if (!dealsGrid) return;
+    
+    dealsGrid.innerHTML = '';
+    
+    TOP_DEALS.forEach(deal => {
+        const dealCard = createDealCard(deal);
+        dealsGrid.appendChild(dealCard);
     });
 }
 
-// ===== SMOOTH SCROLL BEHAVIOR =====
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        
-        if (target) {
-            const navbar = document.getElementById('navbar');
-            const navHeight = navbar ? navbar.offsetHeight : 0;
-            const targetPosition = target.offsetTop - navHeight;
-            
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
+function createDealCard(deal) {
+    const card = document.createElement('div');
+    card.className = 'deal-card';
+    card.innerHTML = `
+        <div class="deal-image">
+            ${deal.emoji}
+            <div class="deal-badge">${deal.discount}% OFF</div>
+        </div>
+        <div class="deal-content">
+            <div class="deal-platform">${deal.platform}</div>
+            <h3 class="deal-title">${deal.name}</h3>
+            <div class="deal-rating">
+                ⭐ ${deal.rating} (${deal.reviews.toLocaleString('en-IN')})
+            </div>
+            <div class="deal-price-section">
+                <span class="deal-price">₹${deal.price.toLocaleString('en-IN')}</span>
+                <span class="deal-original-price">₹${deal.originalPrice.toLocaleString('en-IN')}</span>
+            </div>
+            <button class="deal-cta" onclick="handleBuyNow('${deal.name}', '${deal.platform}')">
+                Shop Now on ${deal.platform}
+            </button>
+        </div>
+    `;
+    
+    return card;
+}
 
-// ===== PAGE LOAD ANIMATION =====
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
+function filterDeals(category) {
+    const dealsGrid = document.getElementById('dealsGrid');
+    dealsGrid.innerHTML = '';
+    
+    const filtered = category === 'all' 
+        ? TOP_DEALS 
+        : TOP_DEALS.filter(deal => deal.category === category);
+    
+    if (filtered.length === 0) {
+        dealsGrid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                <h3>No deals found in this category</h3>
+                <p>Check back soon for amazing offers!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    filtered.forEach(deal => {
+        const dealCard = createDealCard(deal);
+        dealsGrid.appendChild(dealCard);
+    });
+}
+
+// ===================================
+// COMPARE FUNCTIONALITY
+// ===================================
+
+function performComparison() {
+    const input = document.getElementById('compareSearchInput');
+    const query = input.value.trim().toLowerCase();
+    
+    if (!query) {
+        showToast('Please enter a product to compare');
+        return;
+    }
+    
+    showLoading();
     
     setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
-});
-
-// ===== SCROLL PROGRESS INDICATOR =====
-function createScrollProgress() {
-    const progressBar = document.createElement('div');
-    progressBar.className = 'scroll-progress';
-    
-    Object.assign(progressBar.style, {
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        height: '3px',
-        background: 'linear-gradient(90deg, #00ff88, #00d4ff)',
-        zIndex: '9999',
-        transformOrigin: 'left',
-        transform: 'scaleX(0)',
-        transition: 'transform 0.1s ease'
-    });
-    
-    document.body.appendChild(progressBar);
-    
-    window.addEventListener('scroll', () => {
-        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (window.scrollY / windowHeight);
-        progressBar.style.transform = `scaleX(${scrolled})`;
-    });
+        hideLoading();
+        const searchTerm = extractSearchTerm(query) || 'phone';
+        displayComparisonResults(searchTerm);
+        addToSearchHistory(query);
+    }, 1000);
 }
 
-createScrollProgress();
-
-// ===== ACTIVE SECTION HIGHLIGHTING =====
-function highlightActiveSection() {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
+function displayComparisonResults(searchTerm) {
+    const products = MOCK_PRODUCTS[searchTerm] || MOCK_PRODUCTS['phone'];
+    const compareResults = document.getElementById('compareResults');
     
-    window.addEventListener('scroll', () => {
-        let current = '';
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            
-            if (pageYOffset >= sectionTop - 200) {
-                current = section.getAttribute('id');
-            }
-        });
-        
-        navLinks.forEach(link => {
-            link.style.color = '';
-            if (link.getAttribute('href') === `#${current}`) {
-                link.style.color = 'var(--primary-color)';
-            }
-        });
-    });
+    // Find best deal
+    const bestDeal = products.reduce((min, p) => p.price < min.price ? p : min);
+    
+    compareResults.innerHTML = `
+        <div class="compare-table">
+            <div class="compare-table-header">
+                Comparison Results - ${products.length} platforms found
+            </div>
+            <div class="compare-items">
+                ${products.map(product => `
+                    <div class="compare-item">
+                        <div class="compare-item-image">${product.emoji}</div>
+                        <div class="compare-item-details">
+                            <h3>${product.name}</h3>
+                            <div class="compare-item-meta">
+                                <div class="compare-meta-item">
+                                    <span class="compare-meta-label">Platform</span>
+                                    <span class="compare-meta-value">${product.platform}</span>
+                                </div>
+                                <div class="compare-meta-item">
+                                    <span class="compare-meta-label">Rating</span>
+                                    <span class="compare-meta-value">⭐ ${product.rating}</span>
+                                </div>
+                                <div class="compare-meta-item">
+                                    <span class="compare-meta-label">Discount</span>
+                                    <span class="compare-meta-value">${product.discount}%</span>
+                                </div>
+                                <div class="compare-meta-item">
+                                    <span class="compare-meta-label">Delivery</span>
+                                    <span class="compare-meta-value">${Math.floor(Math.random() * 3) + 1} days</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="compare-item-actions">
+                            ${product.id === bestDeal.id ? '<div class="best-deal-badge">🏆 Best Deal</div>' : ''}
+                            <div class="compare-item-price">₹${product.price.toLocaleString('en-IN')}</div>
+                            <button class="btn-small primary" onclick="handleBuyNow('${product.name}', '${product.platform}')">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
 }
 
-highlightActiveSection();
+// ===================================
+// UTILITY FUNCTIONS
+// ===================================
 
-// ===== KEYBOARD NAVIGATION =====
-document.addEventListener('keydown', (e) => {
-    // Press ESC to close mobile menu
-    if (e.key === 'Escape') {
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('nav-menu');
-        
-        if (hamburger && navMenu) {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-        }
+function getRandomResponse(responses) {
+    return responses[Math.floor(Math.random() * responses.length)];
+}
+
+function addToSearchHistory(query) {
+    APP_STATE.searchHistory.unshift({
+        query: query,
+        timestamp: new Date().toISOString()
+    });
+    
+    // Keep only last 50 searches
+    if (APP_STATE.searchHistory.length > 50) {
+        APP_STATE.searchHistory = APP_STATE.searchHistory.slice(0, 50);
     }
-});
-
-// ===== PERFORMANCE MONITOR =====
-if (process.env.NODE_ENV === 'development') {
-    console.log('Team RTX Website Loaded Successfully');
-    console.log('Performance Metrics:', performance.timing);
+    
+    localStorage.setItem('kai_search_history', JSON.stringify(APP_STATE.searchHistory));
 }
 
-// ===== EASTER EGG =====
-let clickCount = 0;
-const logo = document.querySelector('.logo');
-
-if (logo) {
-    logo.addEventListener('click', () => {
-        clickCount++;
-        
-        if (clickCount >= 5) {
-            showNotification('🚀 Team RTX - Powered by Innovation!', 'success');
-            clickCount = 0;
-            
-            // Add special effect
-            document.body.style.animation = 'hueRotate 2s ease';
-        }
-    });
+function showLoading() {
+    document.getElementById('loadingOverlay').classList.add('active');
 }
 
-// Add hue rotate animation
-const easterEggStyle = document.createElement('style');
-easterEggStyle.textContent = `
-    @keyframes hueRotate {
-        0% { filter: hue-rotate(0deg); }
-        50% { filter: hue-rotate(180deg); }
-        100% { filter: hue-rotate(360deg); }
-    }
-`;
-document.head.appendChild(easterEggStyle);
+function hideLoading() {
+    document.getElementById('loadingOverlay').classList.remove('active');
+}
 
-console.log('%c🚀 Team RTX - AI Innovation', 'font-size: 20px; color: #00ff88; font-weight: bold;');
-console.log('%cPowering the future of retail with KAI', 'font-size: 14px; color: #00d4ff;');
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.querySelector('.toast-message').textContent = message;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
+// ===================================
+// ACTION HANDLERS
+// ===================================
+
+function handleBuyNow(productName, platform) {
+    showToast(`🛒 Redirecting to ${platform} for ${productName}...`);
+    
+    // In a real implementation, this would redirect to the actual platform
+    setTimeout(() => {
+        addMessageToChat(`Great choice! I'm preparing your order for "${productName}" on ${platform}. Would you like to:<br>
+        • Add to cart<br>
+        • Buy now with UPI/Card<br>
+        • Save for later`, 'ai');
+        navigateToPage('chat');
+    }, 1500);
+}
+
+function handleAddToCompare(productName) {
+    showToast(`✅ Added ${productName} to comparison`);
+    navigateToPage('compare');
+}
+
+// ===================================
+// EXPORTS (for onclick handlers)
+// ===================================
+
+window.handleBuyNow = handleBuyNow;
+window.handleAddToCompare = handleAddToCompare;
