@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with KAI - Your Smart Shopping Assistant</title>
+    <meta name="description" content="Chat with KAI, your AI-powered shopping assistant. Get personalized recommendations, find products, and shop smarter.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="chat-page">
+    <!-- Navigation -->
+    <nav class="navbar navbar-chat" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span class="logo-text">K<span class="highlight">AI</span></span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/chat" class="nav-link active">Chat with KAI</a></li>
+                <li><a href="/products" class="nav-link">Products</a></li>
+                <li><a href="/orders" class="nav-link">My Orders</a></li>
+                <li><a href="/admin" class="nav-link">Admin</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Chat Interface -->
+    <main class="chat-container">
+        <!-- Sidebar -->
+        <aside class="chat-sidebar" id="chat-sidebar">
+            <div class="sidebar-header">
+                <h3>Quick Actions</h3>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="quick-buttons">
+                <button class="quick-btn" data-message="Recommend a product for me">
+                    <span class="quick-icon">💡</span>
+                    <span>Recommend a product</span>
+                </button>
+                <button class="quick-btn" data-message="Show me today's deals">
+                    <span class="quick-icon">🔥</span>
+                    <span>Find deals</span>
+                </button>
+                <button class="quick-btn" data-message="What are the most popular items?">
+                    <span class="quick-icon">⭐</span>
+                    <span>Popular items</span>
+                </button>
+                <button class="quick-btn" data-message="I want to create a mock order">
+                    <span class="quick-icon">🛒</span>
+                    <span>Create mock order</span>
+                </button>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>Browse Categories</h4>
+                <div class="category-buttons">
+                    <button class="category-btn" data-message="Show me electronics">📱 Electronics</button>
+                    <button class="category-btn" data-message="Show me wearables">⌚ Wearables</button>
+                    <button class="category-btn" data-message="Show me accessories">🎧 Accessories</button>
+                    <button class="category-btn" data-message="Show me bags">🎒 Bags</button>
+                    <button class="category-btn" data-message="Show me shoes">👟 Shoes</button>
+                </div>
+            </div>
+
+            <div class="sidebar-section popular-products">
+                <h4>Popular Products</h4>
+                <div class="popular-list" id="popular-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <div class="sidebar-section offers-section">
+                <h4>🎁 Special Offers</h4>
+                <div class="offers-list">
+                    <div class="offer-card">
+                        <span class="offer-badge">-30%</span>
+                        <p>Holiday Sale on Electronics</p>
+                    </div>
+                    <div class="offer-card">
+                        <span class="offer-badge">FREE</span>
+                        <p>Free shipping on orders $50+</p>
+                    </div>
+                    <div class="offer-card">
+                        <span class="offer-badge">2X</span>
+                        <p>Double rewards this week</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <div class="chat-main">
+            <div class="chat-header">
+                <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+                <div class="chat-header-info">
+                    <div class="kai-avatar">
+                        <span>🤖</span>
+                        <span class="status-dot online"></span>
+                    </div>
+                    <div class="chat-header-text">
+                        <h2>KAI</h2>
+                        <span class="status-text">Online • Ready to help</span>
+                    </div>
+                </div>
+                <div class="chat-header-actions">
+                    <button class="header-btn" id="clear-chat" title="Clear chat">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+                <!-- Welcome Message -->
+                <div class="message kai-message">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            <p>👋 <strong>Hello! I'm KAI, your smart shopping assistant!</strong></p>
+                            <p>I'm here to help you discover amazing products, find the best deals, and make your shopping experience delightful.</p>
+                            <p>Here's what I can do for you:</p>
+                            <ul>
+                                <li>🔍 Help you find specific products</li>
+                                <li>💡 Give personalized recommendations</li>
+                                <li>🔥 Show you today's best deals</li>
+                                <li>🛒 Create mock orders for testing</li>
+                                <li>📊 Compare products and features</li>
+                            </ul>
+                            <p>What can I help you find today?</p>
+                        </div>
+                        <span class="message-time">Just now</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typing-indicator" style="display: none;">
+                <div class="message kai-message">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <form class="chat-form" id="chat-form">
+                    <div class="input-wrapper">
+                        <input 
+                            type="text" 
+                            id="chat-input" 
+                            placeholder="Ask KAI anything about products..." 
+                            autocomplete="off"
+                            autofocus
+                        >
+                        <button type="submit" class="send-btn" id="send-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="input-hint">Press Enter to send • KAI can help with products, orders, and recommendations</p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Product Preview Panel -->
+        <aside class="product-preview-panel" id="product-preview">
+            <div class="preview-header">
+                <h3>Product Preview</h3>
+                <button class="preview-close" id="preview-close">×</button>
+            </div>
+            <div class="preview-content" id="preview-content">
+                <p class="preview-placeholder">Click on a product in the chat to see details here.</p>
+            </div>
+        </aside>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Chat state
+        let chatHistory = [];
+        let isTyping = false;
+
+        // DOM elements
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const sendBtn = document.getElementById('send-btn');
+        const clearChatBtn = document.getElementById('clear-chat');
+        const sidebar = document.getElementById('chat-sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const mobileSidebarToggle = document.getElementById('mobile-sidebar-toggle');
+
+        // Load chat history from localStorage
+        function loadChatHistory() {
+            const saved = localStorage.getItem('kai_chat_history');
+            if (saved) {
+                chatHistory = JSON.parse(saved);
+                chatHistory.forEach(msg => {
+                    appendMessage(msg.role, msg.content, false);
+                });
+            }
+        }
+
+        // Save chat history to localStorage
+        function saveChatHistory() {
+            localStorage.setItem('kai_chat_history', JSON.stringify(chatHistory));
+        }
+
+        // Format message content (convert markdown-like syntax)
+        function formatMessage(content) {
+            return content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/~~(.*?)~~/g, '<del>$1</del>')
+                .replace(/\n/g, '<br>')
+                .replace(/• /g, '• ')
+                .replace(/\$(\d+\.?\d*)/g, '<span class="price">$$$1</span>');
+        }
+
+        // Append message to chat
+        function appendMessage(role, content, save = true) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role === 'user' ? 'user-message' : 'kai-message'}`;
+            
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            if (role === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-bubble">${formatMessage(content)}</div>
+                        <span class="message-time">${time}</span>
+                    </div>
+                    <div class="message-avatar">👤</div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <div class="message-bubble">${formatMessage(content)}</div>
+                        <span class="message-time">${time}</span>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            if (save) {
+                chatHistory.push({ role, content });
+                saveChatHistory();
+            }
+        }
+
+        // Show typing indicator
+        function showTyping() {
+            typingIndicator.style.display = 'block';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            isTyping = true;
+        }
+
+        // Hide typing indicator
+        function hideTyping() {
+            typingIndicator.style.display = 'none';
+            isTyping = false;
+        }
+
+        // Send message to API
+        async function sendMessage(message) {
+            if (!message.trim() || isTyping) return;
+            
+            // Add user message
+            appendMessage('user', message);
+            chatInput.value = '';
+            
+            // Show typing
+            showTyping();
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        history: chatHistory.slice(-10) // Send last 10 messages for context
+                    })
+                });
+                
+                const data = await response.json();
+                
+                hideTyping();
+                
+                if (data.message) {
+                    appendMessage('assistant', data.message);
+                } else {
+                    appendMessage('assistant', "I'm sorry, I couldn't process your request. Please try again.");
+                }
+            } catch (error) {
+                console.error('Chat error:', error);
+                hideTyping();
+                appendMessage('assistant', "I'm having trouble connecting right now. Please try again in a moment.");
+            }
+        }
+
+        // Handle form submission
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            sendMessage(chatInput.value);
+        });
+
+        // Quick buttons
+        document.querySelectorAll('.quick-btn, .category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const message = btn.dataset.message;
+                if (message) {
+                    sendMessage(message);
+                }
+            });
+        });
+
+        // Clear chat
+        clearChatBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear the chat history?')) {
+                chatHistory = [];
+                localStorage.removeItem('kai_chat_history');
+                chatMessages.innerHTML = `
+                    <div class="message kai-message">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                <p>Chat cleared! 👋 How can I help you today?</p>
+                            </div>
+                            <span class="message-time">Just now</span>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        // Sidebar toggle
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+        });
+
+        mobileSidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        // Load popular products
+        async function loadPopularProducts() {
+            try {
+                const response = await fetch('/api/products?featured=true');
+                const data = await response.json();
+                
+                const list = document.getElementById('popular-list');
+                if (data.products && data.products.length > 0) {
+                    list.innerHTML = data.products.slice(0, 4).map(p => `
+                        <div class="popular-item" onclick="sendMessage('Tell me about ${p.name}')">
+                            <img src="${p.image}" alt="${p.name}">
+                            <div class="popular-info">
+                                <span class="popular-name">${p.name}</span>
+                                <span class="popular-price">$${p.price}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading popular products:', error);
+            }
+        }
+
+        // Check for product query parameter
+        function checkProductQuery() {
+            const params = new URLSearchParams(window.location.search);
+            const productId = params.get('product');
+            
+            if (productId) {
+                fetch(`/api/products/${productId}`)
+                    .then(res => res.json())
+                    .then(product => {
+                        if (product && product.name) {
+                            sendMessage(`Tell me about the ${product.name}`);
+                        }
+                    })
+                    .catch(err => console.error('Error fetching product:', err));
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadChatHistory();
+            loadPopularProducts();
+            checkProductQuery();
+            chatInput.focus();
+        });
+    </script>
+</body>
+</html>

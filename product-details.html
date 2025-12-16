@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - KAI Shopping Assistant</title>
+    <meta name="description" content="View product details and ask KAI for more information.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Cursor Follower -->
+    <div class="cursor-follower"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span class="logo-text">K<span class="highlight">AI</span></span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/chat" class="nav-link">Chat with KAI</a></li>
+                <li><a href="/products" class="nav-link active">Products</a></li>
+                <li><a href="/orders" class="nav-link">My Orders</a></li>
+                <li><a href="/admin" class="nav-link">Admin</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="/chat" class="btn btn-primary btn-nav">Ask KAI</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <nav class="breadcrumb">
+                <a href="/">Home</a>
+                <span class="separator">/</span>
+                <a href="/products">Products</a>
+                <span class="separator">/</span>
+                <span class="current" id="breadcrumb-product">Loading...</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Product Details -->
+    <section class="product-details-section">
+        <div class="container">
+            <div class="product-details" id="product-details">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading product details...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products-section" id="related-section" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">You May Also Like</h2>
+            <div class="related-products-grid" id="related-products">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">🤖</span>
+                        <span class="logo-text">K<span class="highlight">AI</span></span>
+                    </a>
+                    <p class="footer-tagline">Your Smart Retail Shopping Assistant</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/chat">Chat with KAI</a></li>
+                            <li><a href="/products">Products</a></li>
+                            <li><a href="/orders">My Orders</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 KAI Shopping Assistant by Team RTX. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Order Modal -->
+    <div class="modal" id="order-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Mock Order</h3>
+                <button class="modal-close" onclick="closeOrderModal()">×</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let currentProduct = null;
+
+        // Get product ID from URL
+        function getProductId() {
+            const path = window.location.pathname;
+            const parts = path.split('/');
+            return parts[parts.length - 1];
+        }
+
+        // Load product details
+        async function loadProductDetails() {
+            const productId = getProductId();
+            
+            try {
+                const response = await fetch(`/api/products/${productId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Product not found');
+                }
+                
+                currentProduct = await response.json();
+                renderProductDetails(currentProduct);
+                loadRelatedProducts(currentProduct.category, productId);
+                
+                // Update page title
+                document.title = `${currentProduct.name} - KAI Shopping Assistant`;
+                document.getElementById('breadcrumb-product').textContent = currentProduct.name;
+                
+            } catch (error) {
+                console.error('Error loading product:', error);
+                document.getElementById('product-details').innerHTML = `
+                    <div class="error-state">
+                        <div class="error-icon">😕</div>
+                        <h2>Product Not Found</h2>
+                        <p>We couldn't find the product you're looking for.</p>
+                        <a href="/products" class="btn btn-primary">Browse Products</a>
+                    </div>
+                `;
+            }
+        }
+
+        // Render product details
+        function renderProductDetails(product) {
+            const savings = product.originalPrice > product.price 
+                ? (product.originalPrice - product.price).toFixed(2) 
+                : 0;
+            const savingsPercent = savings > 0 
+                ? Math.round((1 - product.price / product.originalPrice) * 100) 
+                : 0;
+
+            document.getElementById('product-details').innerHTML = `
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <img src="${product.image}" alt="${product.name}" id="main-product-image">
+                        ${product.deal ? '<span class="product-badge deal large">-' + savingsPercent + '% OFF</span>' : ''}
+                    </div>
+                </div>
+                
+                <div class="product-info-detail">
+                    <span class="product-category-badge">${product.category}</span>
+                    <h1 class="product-title">${product.name}</h1>
+                    
+                    <div class="product-rating-detail">
+                        <div class="stars-large">
+                            ${'⭐'.repeat(Math.floor(product.rating))}
+                            <span class="rating-number">${product.rating}</span>
+                        </div>
+                        <span class="reviews-count">${product.reviews.toLocaleString()} reviews</span>
+                    </div>
+                    
+                    <div class="product-price-detail">
+                        <span class="current-price-large">$${product.price}</span>
+                        ${savings > 0 ? `
+                            <span class="original-price-large">$${product.originalPrice}</span>
+                            <span class="savings-badge">Save $${savings}!</span>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="product-stock-detail ${product.stock < 20 ? 'low' : ''}">
+                        <span class="stock-indicator"></span>
+                        ${product.stock > 20 
+                            ? `In Stock (${product.stock} available)` 
+                            : `Only ${product.stock} left - Order soon!`}
+                    </div>
+                    
+                    <p class="product-description-detail">${product.description}</p>
+                    
+                    <div class="product-specs">
+                        <h3>Specifications</h3>
+                        <div class="specs-grid">
+                            ${Object.entries(product.specs || {}).map(([key, value]) => `
+                                <div class="spec-item">
+                                    <span class="spec-label">${key}</span>
+                                    <span class="spec-value">${value}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="product-actions-detail">
+                        <button class="btn btn-primary btn-large btn-full" onclick="openOrderModal()">
+                            <span class="btn-icon">🛒</span>
+                            Mock Buy Now
+                        </button>
+                        <a href="/chat?product=${product.id}" class="btn btn-secondary btn-large btn-full">
+                            <span class="btn-icon">🤖</span>
+                            Ask KAI About This
+                        </a>
+                    </div>
+                    
+                    <div class="product-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">🚚</span>
+                            <div>
+                                <strong>Free Shipping</strong>
+                                <p>On orders over $50</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">↩️</span>
+                            <div>
+                                <strong>Easy Returns</strong>
+                                <p>30-day return policy</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔒</span>
+                            <div>
+                                <strong>Secure Payment</strong>
+                                <p>100% secure checkout</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load related products
+        async function loadRelatedProducts(category, currentId) {
+            try {
+                const response = await fetch(`/api/products?category=${category}`);
+                const data = await response.json();
+                
+                const related = data.products
+                    .filter(p => p.id !== currentId)
+                    .slice(0, 4);
+                
+                if (related.length > 0) {
+                    document.getElementById('related-section').style.display = 'block';
+                    document.getElementById('related-products').innerHTML = related.map(product => `
+                        <div class="product-card small" onclick="window.location.href='/product/${product.id}'">
+                            <div class="product-image">
+                                <img src="${product.image}" alt="${product.name}" loading="lazy">
+                                ${product.deal ? '<span class="product-badge deal">Sale</span>' : ''}
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">${product.name}</h3>
+                                <div class="product-rating">
+                                    <span class="stars">⭐ ${product.rating}</span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">$${product.price}</span>
+                                    ${product.originalPrice > product.price ? 
+                                        `<span class="original-price">$${product.originalPrice}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading related products:', error);
+            }
+        }
+
+        // Open order modal
+        function openOrderModal() {
+            const modal = document.getElementById('order-modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            modalBody.innerHTML = `
+                <div class="order-preview">
+                    <div class="order-product">
+                        <img src="${currentProduct.image}" alt="${currentProduct.name}">
+                        <div class="order-product-info">
+                            <h4>${currentProduct.name}</h4>
+                            <p class="order-price">$${currentProduct.price}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="order-form">
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <div class="quantity-selector">
+                                <button onclick="updateQuantity(-1)">-</button>
+                                <input type="number" id="quantity" value="1" min="1" max="${currentProduct.stock}">
+                                <button onclick="updateQuantity(1)">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Shipping Address (Mock)</label>
+                            <input type="text" id="shipping-address" value="123 Demo Street, City, ST 12345">
+                        </div>
+                        
+                        <div class="order-summary">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="subtotal">$${currentProduct.price}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Shipping</span>
+                                <span>${currentProduct.price >= 50 ? 'FREE' : '$4.99'}</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total</span>
+                                <span id="total">$${(currentProduct.price + (currentProduct.price >= 50 ? 0 : 4.99)).toFixed(2)}</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-full" onclick="createOrder()">
+                            Create Mock Order
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('open');
+        }
+
+        // Close order modal
+        function closeOrderModal() {
+            document.getElementById('order-modal').classList.remove('open');
+        }
+
+        // Update quantity
+        function updateQuantity(change) {
+            const input = document.getElementById('quantity');
+            let value = parseInt(input.value) + change;
+            value = Math.max(1, Math.min(value, currentProduct.stock));
+            input.value = value;
+            
+            const subtotal = (currentProduct.price * value).toFixed(2);
+            const shipping = currentProduct.price * value >= 50 ? 0 : 4.99;
+            const total = (parseFloat(subtotal) + shipping).toFixed(2);
+            
+            document.getElementById('subtotal').textContent = `$${subtotal}`;
+            document.getElementById('total').textContent = `$${total}`;
+        }
+
+        // Create order
+        async function createOrder() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const address = document.getElementById('shipping-address').value;
+            
+            try {
+                const response = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId: currentProduct.id,
+                        productName: currentProduct.name,
+                        productImage: currentProduct.image,
+                        quantity: quantity,
+                        price: currentProduct.price * quantity,
+                        shippingAddress: address,
+                        createdVia: 'product-page'
+                    })
+                });
+                
+                const order = await response.json();
+                
+                // Show success
+                document.getElementById('modal-body').innerHTML = `
+                    <div class="order-success">
+                        <div class="success-icon">✅</div>
+                        <h3>Order Created Successfully!</h3>
+                        <div class="order-details-summary">
+                            <p><strong>Order ID:</strong> ${order.id}</p>
+                            <p><strong>Product:</strong> ${order.productName}</p>
+                            <p><strong>Quantity:</strong> ${order.quantity}</p>
+                            <p><strong>Total:</strong> $${order.price.toFixed(2)}</p>
+                            <p><strong>Estimated Delivery:</strong> ${new Date(order.estimatedDelivery).toLocaleDateString('en-US', { 
+                                weekday: 'long', 
+                                month: 'long', 
+                                day: 'numeric' 
+                            })}</p>
+                        </div>
+                        <div class="success-actions">
+                            <a href="/orders" class="btn btn-primary">View My Orders</a>
+                            <button class="btn btn-secondary" onclick="closeOrderModal()">Continue Shopping</button>
+                        </div>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error creating order:', error);
+                alert('Failed to create order. Please try again.');
+            }
+        }
+
+        // Close modal on outside click
+        document.getElementById('order-modal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                closeOrderModal();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadProductDetails);
+    </script>
+</body>
+</html>

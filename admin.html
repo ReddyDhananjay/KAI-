@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - KAI Shopping Assistant</title>
+    <meta name="description" content="Admin panel to manage products and orders for KAI shopping assistant.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-page">
+    <!-- Navigation -->
+    <nav class="navbar navbar-admin" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span class="logo-text">K<span class="highlight">AI</span></span>
+                <span class="admin-badge">Admin</span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/chat" class="nav-link">Chat with KAI</a></li>
+                <li><a href="/products" class="nav-link">Products</a></li>
+                <li><a href="/orders" class="nav-link">My Orders</a></li>
+                <li><a href="/admin" class="nav-link active">Admin</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Container -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-menu">
+                <button class="sidebar-item active" data-tab="dashboard">
+                    <span class="sidebar-icon">📊</span>
+                    <span>Dashboard</span>
+                </button>
+                <button class="sidebar-item" data-tab="products">
+                    <span class="sidebar-icon">📦</span>
+                    <span>Products</span>
+                </button>
+                <button class="sidebar-item" data-tab="orders">
+                    <span class="sidebar-icon">🛒</span>
+                    <span>Orders</span>
+                </button>
+                <button class="sidebar-item" data-tab="add-product">
+                    <span class="sidebar-icon">➕</span>
+                    <span>Add Product</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Tab -->
+            <div class="admin-tab active" id="tab-dashboard">
+                <div class="admin-header">
+                    <h1>Dashboard</h1>
+                    <p>Overview of your KAI shopping platform</p>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="dashboard-card">
+                        <div class="card-icon blue">📦</div>
+                        <div class="card-content">
+                            <span class="card-value" id="dash-total-products">0</span>
+                            <span class="card-label">Total Products</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon green">🛒</div>
+                        <div class="card-content">
+                            <span class="card-value" id="dash-total-orders">0</span>
+                            <span class="card-label">Total Orders</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon orange">⏳</div>
+                        <div class="card-content">
+                            <span class="card-value" id="dash-pending-orders">0</span>
+                            <span class="card-label">Pending Orders</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon purple">💰</div>
+                        <div class="card-content">
+                            <span class="card-value" id="dash-total-revenue">$0</span>
+                            <span class="card-label">Total Revenue</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-sections">
+                    <div class="dashboard-section">
+                        <h3>Recent Orders</h3>
+                        <div class="recent-orders" id="recent-orders">
+                            <div class="loading-small">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="dashboard-section">
+                        <h3>Low Stock Alert</h3>
+                        <div class="low-stock-list" id="low-stock-list">
+                            <div class="loading-small">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div class="admin-tab" id="tab-products">
+                <div class="admin-header">
+                    <h1>Manage Products</h1>
+                    <button class="btn btn-primary" onclick="switchToTab('add-product')">
+                        <span class="btn-icon">➕</span> Add New Product
+                    </button>
+                </div>
+
+                <div class="admin-toolbar">
+                    <div class="search-container">
+                        <input type="text" id="admin-product-search" placeholder="Search products..." class="admin-search">
+                    </div>
+                    <select id="admin-category-filter" class="admin-select">
+                        <option value="all">All Categories</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="wearables">Wearables</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="bags">Bags</option>
+                        <option value="shoes">Shoes</option>
+                    </select>
+                </div>
+
+                <div class="admin-table-container">
+                    <table class="admin-table" id="products-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Rating</th>
+                                <th>Featured</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-tbody">
+                            <tr><td colspan="7" class="loading-cell">Loading products...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div class="admin-tab" id="tab-orders">
+                <div class="admin-header">
+                    <h1>Manage Orders</h1>
+                </div>
+
+                <div class="admin-toolbar">
+                    <select id="admin-order-filter" class="admin-select">
+                        <option value="all">All Orders</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="admin-table-container">
+                    <table class="admin-table" id="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-tbody">
+                            <tr><td colspan="6" class="loading-cell">Loading orders...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add Product Tab -->
+            <div class="admin-tab" id="tab-add-product">
+                <div class="admin-header">
+                    <h1 id="product-form-title">Add New Product</h1>
+                </div>
+
+                <form class="product-form" id="product-form">
+                    <input type="hidden" id="edit-product-id">
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="product-name">Product Name *</label>
+                            <input type="text" id="product-name" required placeholder="Enter product name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-category">Category *</label>
+                            <select id="product-category" required>
+                                <option value="">Select category</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Wearables">Wearables</option>
+                                <option value="Accessories">Accessories</option>
+                                <option value="Bags">Bags</option>
+                                <option value="Shoes">Shoes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-price">Price *</label>
+                            <input type="number" id="product-price" required step="0.01" min="0" placeholder="0.00">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-original-price">Original Price</label>
+                            <input type="number" id="product-original-price" step="0.01" min="0" placeholder="0.00">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-stock">Stock *</label>
+                            <input type="number" id="product-stock" required min="0" placeholder="0">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="product-image">Image URL *</label>
+                            <input type="url" id="product-image" required placeholder="https://example.com/image.jpg">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="product-description">Description *</label>
+                            <textarea id="product-description" required rows="4" placeholder="Enter product description"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-rating">Rating (0-5)</label>
+                            <input type="number" id="product-rating" step="0.1" min="0" max="5" placeholder="0.0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-reviews">Number of Reviews</label>
+                            <input type="number" id="product-reviews" min="0" placeholder="0">
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="product-featured">
+                                <span>Featured Product</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="product-deal">
+                                <span>On Sale / Deal</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Specifications (Optional)</label>
+                            <div class="specs-input" id="specs-input">
+                                <div class="spec-row">
+                                    <input type="text" placeholder="Spec name (e.g., Battery Life)" class="spec-key">
+                                    <input type="text" placeholder="Value (e.g., 20 hours)" class="spec-value">
+                                    <button type="button" class="btn btn-small btn-outline" onclick="addSpecRow()">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetProductForm()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="product-submit-btn">Add Product</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Order Modal -->
+    <div class="modal" id="edit-order-modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h3>Update Order Status</h3>
+                <button class="modal-close" onclick="closeEditOrderModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Order: <strong id="edit-order-id-display"></strong></p>
+                <div class="form-group">
+                    <label for="new-order-status">New Status</label>
+                    <select id="new-order-status" class="admin-select full">
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" onclick="closeEditOrderModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="updateOrderStatus()">Update Status</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="delete-modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h3>Confirm Delete</h3>
+                <button class="modal-close" onclick="closeDeleteModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this product?</p>
+                <p class="warning-text">This action cannot be undone.</p>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                    <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // State
+        let products = [];
+        let orders = [];
+        let editingOrderId = null;
+        let deletingProductId = null;
+
+        // Tab switching
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        const adminTabs = document.querySelectorAll('.admin-tab');
+
+        function switchToTab(tabName) {
+            sidebarItems.forEach(item => {
+                item.classList.toggle('active', item.dataset.tab === tabName);
+            });
+            adminTabs.forEach(tab => {
+                tab.classList.toggle('active', tab.id === `tab-${tabName}`);
+            });
+        }
+
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', () => {
+                switchToTab(item.dataset.tab);
+            });
+        });
+
+        // Load data
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products');
+                const data = await response.json();
+                products = data.products || [];
+                renderProductsTable();
+                updateDashboard();
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        async function loadOrders() {
+            try {
+                const response = await fetch('/api/orders');
+                const data = await response.json();
+                orders = data.orders || [];
+                renderOrdersTable();
+                updateDashboard();
+            } catch (error) {
+                console.error('Error loading orders:', error);
+            }
+        }
+
+        // Dashboard
+        function updateDashboard() {
+            document.getElementById('dash-total-products').textContent = products.length;
+            document.getElementById('dash-total-orders').textContent = orders.length;
+            document.getElementById('dash-pending-orders').textContent = 
+                orders.filter(o => o.status === 'Processing' || o.status === 'Shipped').length;
+            
+            const totalRevenue = orders
+                .filter(o => o.status !== 'Cancelled')
+                .reduce((sum, o) => sum + o.price, 0);
+            document.getElementById('dash-total-revenue').textContent = `$${totalRevenue.toFixed(2)}`;
+
+            // Recent orders
+            const recentOrders = orders.slice(0, 5);
+            document.getElementById('recent-orders').innerHTML = recentOrders.length > 0 
+                ? recentOrders.map(o => `
+                    <div class="recent-order-item">
+                        <span class="order-id">${o.id}</span>
+                        <span class="order-product">${o.productName.substring(0, 20)}...</span>
+                        <span class="order-status status-${o.status.toLowerCase()}">${o.status}</span>
+                    </div>
+                `).join('')
+                : '<p class="no-data">No orders yet</p>';
+
+            // Low stock
+            const lowStock = products.filter(p => p.stock < 20);
+            document.getElementById('low-stock-list').innerHTML = lowStock.length > 0
+                ? lowStock.map(p => `
+                    <div class="low-stock-item">
+                        <span class="product-name">${p.name}</span>
+                        <span class="stock-count ${p.stock < 10 ? 'critical' : 'warning'}">${p.stock} left</span>
+                    </div>
+                `).join('')
+                : '<p class="no-data">All products well stocked</p>';
+        }
+
+        // Products table
+        function renderProductsTable() {
+            const searchQuery = document.getElementById('admin-product-search').value.toLowerCase();
+            const categoryFilter = document.getElementById('admin-category-filter').value;
+
+            let filtered = products;
+            
+            if (searchQuery) {
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(searchQuery) ||
+                    p.description.toLowerCase().includes(searchQuery)
+                );
+            }
+            
+            if (categoryFilter !== 'all') {
+                filtered = filtered.filter(p => 
+                    p.category.toLowerCase() === categoryFilter.toLowerCase()
+                );
+            }
+
+            document.getElementById('products-tbody').innerHTML = filtered.length > 0
+                ? filtered.map(p => `
+                    <tr>
+                        <td>
+                            <div class="table-product">
+                                <img src="${p.image}" alt="${p.name}">
+                                <span>${p.name}</span>
+                            </div>
+                        </td>
+                        <td>${p.category}</td>
+                        <td>$${p.price}</td>
+                        <td class="${p.stock < 20 ? 'low-stock' : ''}">${p.stock}</td>
+                        <td>⭐ ${p.rating}</td>
+                        <td>${p.featured ? '✅' : '❌'}</td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="action-btn edit" onclick="editProduct('${p.id}')" title="Edit">✏️</button>
+                                <button class="action-btn delete" onclick="openDeleteModal('${p.id}')" title="Delete">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('')
+                : '<tr><td colspan="7" class="no-data">No products found</td></tr>';
+        }
+
+        // Orders table
+        function renderOrdersTable() {
+            const statusFilter = document.getElementById('admin-order-filter').value;
+            
+            let filtered = orders;
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(o => o.status.toLowerCase() === statusFilter);
+            }
+
+            document.getElementById('orders-tbody').innerHTML = filtered.length > 0
+                ? filtered.map(o => `
+                    <tr>
+                        <td><strong>${o.id}</strong></td>
+                        <td>
+                            <div class="table-product">
+                                <img src="${o.productImage}" alt="${o.productName}">
+                                <span>${o.productName}</span>
+                            </div>
+                        </td>
+                        <td>$${o.price.toFixed(2)}</td>
+                        <td>${new Date(o.orderDate).toLocaleDateString()}</td>
+                        <td><span class="status-badge ${o.status.toLowerCase()}">${o.status}</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="action-btn edit" onclick="openEditOrderModal('${o.id}')" title="Edit Status">✏️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('')
+                : '<tr><td colspan="6" class="no-data">No orders found</td></tr>';
+        }
+
+        // Product form
+        document.getElementById('product-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const productId = document.getElementById('edit-product-id').value;
+            const isEditing = !!productId;
+
+            // Gather specs
+            const specs = {};
+            document.querySelectorAll('.spec-row').forEach(row => {
+                const key = row.querySelector('.spec-key').value.trim();
+                const value = row.querySelector('.spec-value').value.trim();
+                if (key && value) {
+                    specs[key] = value;
+                }
+            });
+
+            const productData = {
+                name: document.getElementById('product-name').value,
+                category: document.getElementById('product-category').value,
+                price: parseFloat(document.getElementById('product-price').value),
+                originalPrice: parseFloat(document.getElementById('product-original-price').value) || parseFloat(document.getElementById('product-price').value),
+                stock: parseInt(document.getElementById('product-stock').value),
+                image: document.getElementById('product-image').value,
+                description: document.getElementById('product-description').value,
+                rating: parseFloat(document.getElementById('product-rating').value) || 0,
+                reviews: parseInt(document.getElementById('product-reviews').value) || 0,
+                featured: document.getElementById('product-featured').checked,
+                deal: document.getElementById('product-deal').checked,
+                specs: specs
+            };
+
+            try {
+                const url = isEditing ? `/api/products/${productId}` : '/api/products';
+                const method = isEditing ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(productData)
+                });
+
+                if (response.ok) {
+                    alert(isEditing ? 'Product updated successfully!' : 'Product added successfully!');
+                    resetProductForm();
+                    loadProducts();
+                    switchToTab('products');
+                } else {
+                    alert('Failed to save product. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error saving product:', error);
+                alert('Failed to save product. Please try again.');
+            }
+        });
+
+        function addSpecRow() {
+            const container = document.getElementById('specs-input');
+            const newRow = document.createElement('div');
+            newRow.className = 'spec-row';
+            newRow.innerHTML = `
+                <input type="text" placeholder="Spec name" class="spec-key">
+                <input type="text" placeholder="Value" class="spec-value">
+                <button type="button" class="btn btn-small btn-danger-outline" onclick="this.parentElement.remove()">×</button>
+            `;
+            container.appendChild(newRow);
+        }
+
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('edit-product-id').value = productId;
+            document.getElementById('product-form-title').textContent = 'Edit Product';
+            document.getElementById('product-submit-btn').textContent = 'Update Product';
+            
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-category').value = product.category;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-original-price').value = product.originalPrice;
+            document.getElementById('product-stock').value = product.stock;
+            document.getElementById('product-image').value = product.image;
+            document.getElementById('product-description').value = product.description;
+            document.getElementById('product-rating').value = product.rating;
+            document.getElementById('product-reviews').value = product.reviews;
+            document.getElementById('product-featured').checked = product.featured;
+            document.getElementById('product-deal').checked = product.deal;
+
+            // Load specs
+            const specsContainer = document.getElementById('specs-input');
+            specsContainer.innerHTML = '';
+            if (product.specs) {
+                Object.entries(product.specs).forEach(([key, value], index) => {
+                    const row = document.createElement('div');
+                    row.className = 'spec-row';
+                    row.innerHTML = `
+                        <input type="text" placeholder="Spec name" class="spec-key" value="${key}">
+                        <input type="text" placeholder="Value" class="spec-value" value="${value}">
+                        <button type="button" class="btn btn-small ${index === 0 ? 'btn-outline' : 'btn-danger-outline'}" onclick="${index === 0 ? 'addSpecRow()' : 'this.parentElement.remove()'}">${index === 0 ? '+' : '×'}</button>
+                    `;
+                    specsContainer.appendChild(row);
+                });
+            } else {
+                addSpecRow();
+            }
+
+            switchToTab('add-product');
+        }
+
+        function resetProductForm() {
+            document.getElementById('product-form').reset();
+            document.getElementById('edit-product-id').value = '';
+            document.getElementById('product-form-title').textContent = 'Add New Product';
+            document.getElementById('product-submit-btn').textContent = 'Add Product';
+            
+            const specsContainer = document.getElementById('specs-input');
+            specsContainer.innerHTML = `
+                <div class="spec-row">
+                    <input type="text" placeholder="Spec name (e.g., Battery Life)" class="spec-key">
+                    <input type="text" placeholder="Value (e.g., 20 hours)" class="spec-value">
+                    <button type="button" class="btn btn-small btn-outline" onclick="addSpecRow()">+</button>
+                </div>
+            `;
+        }
+
+        // Delete product
+        function openDeleteModal(productId) {
+            deletingProductId = productId;
+            document.getElementById('delete-modal').classList.add('open');
+        }
+
+        function closeDeleteModal() {
+            deletingProductId = null;
+            document.getElementById('delete-modal').classList.remove('open');
+        }
+
+        async function confirmDelete() {
+            if (!deletingProductId) return;
+
+            try {
+                const response = await fetch(`/api/products/${deletingProductId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    closeDeleteModal();
+                    loadProducts();
+                } else {
+                    alert('Failed to delete product.');
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                alert('Failed to delete product.');
+            }
+        }
+
+        // Edit order
+        function openEditOrderModal(orderId) {
+            editingOrderId = orderId;
+            const order = orders.find(o => o.id === orderId);
+            document.getElementById('edit-order-id-display').textContent = orderId;
+            document.getElementById('new-order-status').value = order.status;
+            document.getElementById('edit-order-modal').classList.add('open');
+        }
+
+        function closeEditOrderModal() {
+            editingOrderId = null;
+            document.getElementById('edit-order-modal').classList.remove('open');
+        }
+
+        async function updateOrderStatus() {
+            if (!editingOrderId) return;
+
+            const newStatus = document.getElementById('new-order-status').value;
+
+            try {
+                const response = await fetch(`/api/orders/${editingOrderId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                if (response.ok) {
+                    closeEditOrderModal();
+                    loadOrders();
+                } else {
+                    alert('Failed to update order status.');
+                }
+            } catch (error) {
+                console.error('Error updating order:', error);
+                alert('Failed to update order status.');
+            }
+        }
+
+        // Event listeners for filters
+        document.getElementById('admin-product-search').addEventListener('input', renderProductsTable);
+        document.getElementById('admin-category-filter').addEventListener('change', renderProductsTable);
+        document.getElementById('admin-order-filter').addEventListener('change', renderOrdersTable);
+
+        // Close modals on outside click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    modal.classList.remove('open');
+                }
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            loadOrders();
+        });
+    </script>
+</body>
+</html>

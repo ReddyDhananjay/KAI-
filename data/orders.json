@@ -1,0 +1,46 @@
+{
+  "orders": [
+    {
+      "id": "ORD-2024-001",
+      "productId": "prod-001",
+      "productName": "ProMax Wireless Earbuds",
+      "productImage": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400",
+      "quantity": 1,
+      "price": 79.99,
+      "status": "Delivered",
+      "orderDate": "2024-12-10T10:30:00Z",
+      "estimatedDelivery": "2024-12-14T18:00:00Z",
+      "deliveredDate": "2024-12-13T14:22:00Z",
+      "shippingAddress": "123 Main St, New York, NY 10001",
+      "createdVia": "chatbot"
+    },
+    {
+      "id": "ORD-2024-002",
+      "productId": "prod-005",
+      "productName": "RunPro Athletic Shoes",
+      "productImage": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
+      "quantity": 1,
+      "price": 129.99,
+      "status": "Shipped",
+      "orderDate": "2024-12-14T15:45:00Z",
+      "estimatedDelivery": "2024-12-18T18:00:00Z",
+      "deliveredDate": null,
+      "shippingAddress": "456 Oak Ave, Los Angeles, CA 90001",
+      "createdVia": "chatbot"
+    },
+    {
+      "id": "ORD-2024-003",
+      "productId": "prod-002",
+      "productName": "SmartWatch Pro X",
+      "productImage": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",
+      "quantity": 1,
+      "price": 249.99,
+      "status": "Processing",
+      "orderDate": "2024-12-16T09:15:00Z",
+      "estimatedDelivery": "2024-12-20T18:00:00Z",
+      "deliveredDate": null,
+      "shippingAddress": "789 Pine Rd, Chicago, IL 60601",
+      "createdVia": "chatbot"
+    }
+  ]
+}

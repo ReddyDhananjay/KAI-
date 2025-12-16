@@ -1,22 +1,25 @@
 // ===============================================
-// TEAM RTX - Interactive JavaScript
+// KAI Shopping Assistant - Main JavaScript
 // ===============================================
 
-// ===== SMOOTH SCROLL SETUP =====
 document.addEventListener('DOMContentLoaded', () => {
     initNavbar();
     initCursorFollower();
     initScrollAnimations();
     initCounters();
-    initParallax();
-    initContactForm();
     initMobileMenu();
 });
 
 // ===== NAVBAR SCROLL EFFECT =====
 function initNavbar() {
     const navbar = document.getElementById('navbar');
-    const navLinks = document.querySelectorAll('.nav-link');
+    
+    if (!navbar) return;
+    
+    // Skip scroll effect for chat and admin pages
+    if (navbar.classList.contains('navbar-chat') || navbar.classList.contains('navbar-admin')) {
+        return;
+    }
     
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
@@ -25,36 +28,14 @@ function initNavbar() {
             navbar.classList.remove('scrolled');
         }
     });
-    
-    // Smooth scroll for nav links
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                const navHeight = navbar.offsetHeight;
-                const targetPosition = targetSection.offsetTop - navHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-                
-                // Close mobile menu if open
-                const navMenu = document.getElementById('nav-menu');
-                const hamburger = document.getElementById('hamburger');
-                navMenu.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
-        });
-    });
 }
 
 // ===== CUSTOM CURSOR FOLLOWER =====
 function initCursorFollower() {
     const cursorFollower = document.querySelector('.cursor-follower');
+    
+    if (!cursorFollower) return;
+    
     let mouseX = 0;
     let mouseY = 0;
     let cursorX = 0;
@@ -82,7 +63,7 @@ function initCursorFollower() {
     animateCursor();
     
     // Cursor interactions with buttons and links
-    const interactiveElements = document.querySelectorAll('a, button, .feature-card, .team-member');
+    const interactiveElements = document.querySelectorAll('a, button, .product-card, .feature-card, .deal-card');
     
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
@@ -101,7 +82,7 @@ function initCursorFollower() {
 function initScrollAnimations() {
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        rootMargin: '0px 0px -50px 0px'
     };
     
     const observer = new IntersectionObserver((entries) => {
@@ -114,31 +95,23 @@ function initScrollAnimations() {
     
     // Elements to animate on scroll
     const animateOnScroll = document.querySelectorAll(
-        '.about-grid, .feature-card, .team-member, .kai-content, .contact-content'
+        '.feature-card, .product-card, .deal-card, .stat-card, .order-card'
     );
     
-    animateOnScroll.forEach(el => {
+    animateOnScroll.forEach((el, index) => {
         el.classList.add('scroll-reveal');
+        el.style.transitionDelay = `${index * 0.05}s`;
         observer.observe(el);
-    });
-    
-    // Parallax effect for gradient orbs
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const orbs = document.querySelectorAll('.gradient-orb');
-        
-        orbs.forEach((orb, index) => {
-            const speed = 0.5 + (index * 0.1);
-            const yPos = -(scrolled * speed);
-            orb.style.transform = `translateY(${yPos}px)`;
-        });
     });
 }
 
 // ===== ANIMATED COUNTERS =====
 function initCounters() {
-    const counters = document.querySelectorAll('.stat-number');
-    const speed = 200; // Animation speed
+    const counters = document.querySelectorAll('.stat-number[data-target]');
+    
+    if (counters.length === 0) return;
+    
+    const speed = 150;
     
     const observerOptions = {
         threshold: 0.5
@@ -177,263 +150,93 @@ function initCounters() {
     }
 }
 
-// ===== PARALLAX EFFECTS =====
-function initParallax() {
-    let ticking = false;
-    
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                parallaxEffect();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-    
-    function parallaxEffect() {
-        const scrolled = window.pageYOffset;
-        
-        // Hero content parallax
-        const heroContent = document.querySelector('.hero-content');
-        if (heroContent) {
-            heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
-            heroContent.style.opacity = 1 - (scrolled / 700);
-        }
-        
-        // Feature cards parallax
-        const featureCards = document.querySelectorAll('.feature-card');
-        featureCards.forEach((card, index) => {
-            const rect = card.getBoundingClientRect();
-            const scrollPercent = rect.top / window.innerHeight;
-            
-            if (scrollPercent < 1 && scrollPercent > -0.5) {
-                const speed = (index % 2 === 0) ? 20 : -20;
-                card.style.transform = `translateY(${scrollPercent * speed}px)`;
-            }
-        });
-    }
-}
-
-// ===== CONTACT FORM =====
-function initContactForm() {
-    const form = document.getElementById('contact-form');
-    
-    if (form) {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const formData = {
-                name: form.name.value,
-                email: form.email.value,
-                subject: form.subject.value,
-                message: form.message.value
-            };
-            
-            // Simulate form submission
-            console.log('Form submitted:', formData);
-            
-            // Show success message
-            showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
-            
-            // Reset form
-            form.reset();
-        });
-    }
-}
-
-// ===== NOTIFICATION SYSTEM =====
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    
-    // Styles for notification
-    Object.assign(notification.style, {
-        position: 'fixed',
-        bottom: '30px',
-        right: '30px',
-        padding: '20px 30px',
-        background: type === 'success' ? 'linear-gradient(135deg, #00ff88, #00d4ff)' : '#ff006e',
-        color: '#0a0a0f',
-        borderRadius: '12px',
-        fontWeight: '600',
-        fontSize: '16px',
-        zIndex: '10000',
-        animation: 'slideInRight 0.5s ease, slideOutRight 0.5s ease 3s',
-        boxShadow: '0 10px 40px rgba(0, 255, 136, 0.3)'
-    });
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.remove();
-    }, 3500);
-}
-
-// Add notification animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
-
 // ===== MOBILE MENU =====
 function initMobileMenu() {
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
     
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            }
-        });
-    }
-}
-
-// ===== PERFORMANCE OPTIMIZATION =====
-// Lazy load images when they come into view
-function initLazyLoad() {
-    const images = document.querySelectorAll('img[data-src]');
+    if (!hamburger || !navMenu) return;
     
-    const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.removeAttribute('data-src');
-                imageObserver.unobserve(img);
-            }
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+    
+    // Close menu when clicking a link
+    const navLinks = navMenu.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
         });
     });
     
-    images.forEach(img => imageObserver.observe(img));
-}
-
-// ===== UTILITY FUNCTIONS =====
-// Throttle function for scroll events
-function throttle(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Debounce function for resize events
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// ===== ADDITIONAL INTERACTIVE ELEMENTS =====
-// Add smooth hover effects to cards
-document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.feature-card, .team-member, .highlight-item');
-    
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', function(e) {
-            this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-        });
-        
-        card.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            
-            this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-        });
-    });
-});
-
-// ===== VIDEO PLACEHOLDER INTERACTION =====
-const videoPlaceholder = document.querySelector('.video-placeholder');
-if (videoPlaceholder) {
-    videoPlaceholder.addEventListener('click', () => {
-        showNotification('Video demo coming soon!', 'info');
-    });
-}
-
-// ===== SMOOTH SCROLL BEHAVIOR =====
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        
-        if (target) {
-            const navbar = document.getElementById('navbar');
-            const navHeight = navbar ? navbar.offsetHeight : 0;
-            const targetPosition = target.offsetTop - navHeight;
-            
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
         }
     });
-});
+}
 
-// ===== PAGE LOAD ANIMATION =====
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
+// ===== NOTIFICATION SYSTEM =====
+function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existing = document.querySelector('.notification');
+    if (existing) {
+        existing.remove();
+    }
     
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    
+    const colors = {
+        success: 'linear-gradient(135deg, #00ff88, #00d4ff)',
+        error: '#ff4444',
+        warning: '#ffaa00',
+        info: 'linear-gradient(135deg, #00d4ff, #00ff88)'
+    };
+    
+    Object.assign(notification.style, {
+        position: 'fixed',
+        bottom: '30px',
+        right: '30px',
+        padding: '16px 28px',
+        background: colors[type] || colors.info,
+        color: type === 'error' || type === 'warning' ? '#fff' : '#0a0a0f',
+        borderRadius: '12px',
+        fontWeight: '600',
+        fontSize: '14px',
+        zIndex: '10000',
+        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
+        transform: 'translateX(400px)',
+        transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+    });
+    
+    document.body.appendChild(notification);
+    
+    // Trigger animation
+    requestAnimationFrame(() => {
+        notification.style.transform = 'translateX(0)';
+    });
+    
+    // Remove after 3.5 seconds
     setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
-});
+        notification.style.transform = 'translateX(400px)';
+        setTimeout(() => notification.remove(), 400);
+    }, 3500);
+}
 
 // ===== SCROLL PROGRESS INDICATOR =====
 function createScrollProgress() {
+    // Only on pages with content to scroll
+    if (document.body.classList.contains('chat-page') || 
+        document.body.classList.contains('admin-page')) {
+        return;
+    }
+    
     const progressBar = document.createElement('div');
     progressBar.className = 'scroll-progress';
     
@@ -458,12 +261,15 @@ function createScrollProgress() {
     });
 }
 
+// Initialize scroll progress
 createScrollProgress();
 
 // ===== ACTIVE SECTION HIGHLIGHTING =====
 function highlightActiveSection() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
+    
+    if (sections.length === 0 || navLinks.length === 0) return;
     
     window.addEventListener('scroll', () => {
         let current = '';
@@ -478,15 +284,19 @@ function highlightActiveSection() {
         });
         
         navLinks.forEach(link => {
-            link.style.color = '';
-            if (link.getAttribute('href') === `#${current}`) {
-                link.style.color = 'var(--primary-color)';
+            link.classList.remove('active');
+            const href = link.getAttribute('href');
+            if (href && href.includes(`#${current}`)) {
+                link.classList.add('active');
             }
         });
     });
 }
 
-highlightActiveSection();
+// Only run on homepage
+if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+    highlightActiveSection();
+}
 
 // ===== KEYBOARD NAVIGATION =====
 document.addEventListener('keydown', (e) => {
@@ -499,43 +309,143 @@ document.addEventListener('keydown', (e) => {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
         }
+        
+        // Close any open modals
+        document.querySelectorAll('.modal.open').forEach(modal => {
+            modal.classList.remove('open');
+        });
     }
 });
 
-// ===== PERFORMANCE MONITOR =====
-if (process.env.NODE_ENV === 'development') {
-    console.log('Team RTX Website Loaded Successfully');
-    console.log('Performance Metrics:', performance.timing);
+// ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        
+        // Skip if just "#"
+        if (href === '#') return;
+        
+        const target = document.querySelector(href);
+        
+        if (target) {
+            e.preventDefault();
+            const navbar = document.getElementById('navbar');
+            const navHeight = navbar ? navbar.offsetHeight : 0;
+            const targetPosition = target.offsetTop - navHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// ===== LAZY LOADING IMAGES =====
+function initLazyLoad() {
+    const images = document.querySelectorAll('img[data-src]');
+    
+    if (images.length === 0) return;
+    
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+    
+    images.forEach(img => imageObserver.observe(img));
 }
 
-// ===== EASTER EGG =====
-let clickCount = 0;
-const logo = document.querySelector('.logo');
+initLazyLoad();
 
-if (logo) {
-    logo.addEventListener('click', () => {
-        clickCount++;
-        
-        if (clickCount >= 5) {
-            showNotification('🚀 Team RTX - Powered by Innovation!', 'success');
-            clickCount = 0;
-            
-            // Add special effect
-            document.body.style.animation = 'hueRotate 2s ease';
-        }
+// ===== UTILITY FUNCTIONS =====
+
+// Format price
+function formatPrice(price) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    }).format(price);
+}
+
+// Format date
+function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
     });
 }
 
-// Add hue rotate animation
-const easterEggStyle = document.createElement('style');
-easterEggStyle.textContent = `
-    @keyframes hueRotate {
-        0% { filter: hue-rotate(0deg); }
-        50% { filter: hue-rotate(180deg); }
-        100% { filter: hue-rotate(360deg); }
-    }
-`;
-document.head.appendChild(easterEggStyle);
+// Debounce function
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
 
-console.log('%c🚀 Team RTX - AI Innovation', 'font-size: 20px; color: #00ff88; font-weight: bold;');
-console.log('%cPowering the future of retail with KAI', 'font-size: 14px; color: #00d4ff;');
+// Throttle function
+function throttle(func, limit) {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+// ===== API HELPER =====
+async function apiRequest(url, options = {}) {
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            },
+            ...options
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('API request failed:', error);
+        throw error;
+    }
+}
+
+// ===== EXPORT UTILITIES =====
+window.KAI = {
+    showNotification,
+    formatPrice,
+    formatDate,
+    apiRequest,
+    debounce,
+    throttle
+};
+
+// ===== CONSOLE BRANDING =====
+console.log(
+    '%c🤖 KAI Shopping Assistant',
+    'font-size: 24px; color: #00ff88; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);'
+);
+console.log(
+    '%cPowered by Team RTX | AI-Driven Retail Experience',
+    'font-size: 12px; color: #00d4ff;'
+);
