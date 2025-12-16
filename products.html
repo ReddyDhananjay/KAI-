@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - KAI Shopping Assistant</title>
+    <meta name="description" content="Browse our product catalog. Find electronics, wearables, accessories, bags, and shoes with help from KAI.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Cursor Follower -->
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span class="logo-text">K<span class="highlight">AI</span></span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/chat" class="nav-link">Chat with KAI</a></li>
+                <li><a href="/products" class="nav-link active">Products</a></li>
+                <li><a href="/orders" class="nav-link">My Orders</a></li>
+                <li><a href="/admin" class="nav-link">Admin</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="/chat" class="btn btn-primary btn-nav">Ask KAI</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <h1 class="page-title">Product Catalog</h1>
+                <p class="page-description">
+                    Browse our curated selection of products. Click on any item to learn more,
+                    or ask KAI for personalized recommendations.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-page-section">
+        <div class="container">
+            <!-- Filters and Search -->
+            <div class="products-toolbar">
+                <div class="search-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="search-icon">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                    <input
+                        type="text"
+                        id="search-input"
+                        placeholder="Search products..."
+                        class="search-input"
+                    >
+                </div>
+
+                <div class="filter-container">
+                    <select id="sort-select" class="filter-select">
+                        <option value="default">Sort by</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="popular">Most Popular</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="categories-filter">
+                <button type="button" class="category-filter-btn active" data-category="all">
+                    <span class="cat-icon">🛍️</span>
+                    <span>All Products</span>
+                </button>
+                <button type="button" class="category-filter-btn" data-category="electronics">
+                    <span class="cat-icon">📱</span>
+                    <span>Electronics</span>
+                </button>
+                <button type="button" class="category-filter-btn" data-category="wearables">
+                    <span class="cat-icon">⌚</span>
+                    <span>Wearables</span>
+                </button>
+                <button type="button" class="category-filter-btn" data-category="accessories">
+                    <span class="cat-icon">🎧</span>
+                    <span>Accessories</span>
+                </button>
+                <button type="button" class="category-filter-btn" data-category="bags">
+                    <span class="cat-icon">🎒</span>
+                    <span>Bags</span>
+                </button>
+                <button type="button" class="category-filter-btn" data-category="shoes">
+                    <span class="cat-icon">👟</span>
+                    <span>Shoes</span>
+                </button>
+            </div>
+
+            <!-- Active Filters -->
+            <div class="active-filters" id="active-filters" style="display: none;">
+                <span class="filter-label">Active Filters:</span>
+                <div class="filter-tags" id="filter-tags"></div>
+                <button type="button" class="clear-filters" id="clear-filters">Clear All</button>
+            </div>
+
+            <!-- Products Count -->
+            <div class="products-count">
+                <span id="products-count">Loading products...</span>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid-page" id="products-grid">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading products...</p>
+                </div>
+            </div>
+
+            <!-- No Results -->
+            <div class="no-results" id="no-results" style="display: none;">
+                <div class="no-results-icon">🔍</div>
+                <h3>No products found</h3>
+                <p>Try adjusting your search or filters</p>
+                <button type="button" class="btn btn-primary" id="reset-filters-btn">Reset Filters</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ask KAI Banner -->
+    <section class="ask-kai-banner">
+        <div class="container">
+            <div class="banner-content">
+                <div class="banner-icon">🤖</div>
+                <div class="banner-text">
+                    <h3>Can't find what you're looking for?</h3>
+                    <p>Ask KAI for personalized recommendations based on your needs.</p>
+                </div>
+                <a href="/chat" class="btn btn-primary">Chat with KAI</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">🤖</span>
+                        <span class="logo-text">K<span class="highlight">AI</span></span>
+                    </a>
+                    <p class="footer-tagline">Your Smart Retail Shopping Assistant</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/chat">Chat with KAI</a></li>
+                            <li><a href="/products">Products</a></li>
+                            <li><a href="/orders">My Orders</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Categories</h4>
+                        <ul>
+                            <li><a href="/products?category=electronics">Electronics</a></li>
+                            <li><a href="/products?category=wearables">Wearables</a></li>
+                            <li><a href="/products?category=accessories">Accessories</a></li>
+                            <li><a href="/products?category=bags">Bags</a></li>
+                            <li><a href="/products?category=shoes">Shoes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 KAI Shopping Assistant by Team RTX. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // State
+        var allProducts = [];
+        var filteredProducts = [];
+        var currentCategory = 'all';
+        var currentSort = 'default';
+        var searchQuery = '';
+
+        // DOM elements
+        var productsGrid = document.getElementById('products-grid');
+        var productsCount = document.getElementById('products-count');
+        var searchInput = document.getElementById('search-input');
+        var sortSelect = document.getElementById('sort-select');
+        var categoryButtons = document.querySelectorAll('.category-filter-btn');
+        var noResults = document.getElementById('no-results');
+        var activeFilters = document.getElementById('active-filters');
+        var filterTags = document.getElementById('filter-tags');
+
+        // Load products
+        function loadProducts() {
+            fetch('/api/products')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                allProducts = data.products || [];
+                checkUrlParams();
+                applyFilters();
+            })
+            .catch(function(error) {
+                console.error('Error loading products:', error);
+                productsGrid.innerHTML = '<p class="error-message">Failed to load products. Please try again later.</p>';
+            });
+        }
+
+        // Apply all filters
+        function applyFilters() {
+            filteredProducts = allProducts.slice();
+
+            // Category filter
+            if (currentCategory !== 'all') {
+                filteredProducts = filteredProducts.filter(function(p) {
+                    return p.category.toLowerCase() === currentCategory.toLowerCase();
+                });
+            }
+
+            // Search filter
+            if (searchQuery) {
+                var query = searchQuery.toLowerCase();
+                filteredProducts = filteredProducts.filter(function(p) {
+                    return p.name.toLowerCase().indexOf(query) !== -1 ||
+                        p.description.toLowerCase().indexOf(query) !== -1 ||
+                        p.category.toLowerCase().indexOf(query) !== -1;
+                });
+            }
+
+            // Sort
+            switch (currentSort) {
+                case 'price-low':
+                    filteredProducts.sort(function(a, b) { return a.price - b.price; });
+                    break;
+                case 'price-high':
+                    filteredProducts.sort(function(a, b) { return b.price - a.price; });
+                    break;
+                case 'rating':
+                    filteredProducts.sort(function(a, b) { return b.rating - a.rating; });
+                    break;
+                case 'popular':
+                    filteredProducts.sort(function(a, b) { return b.reviews - a.reviews; });
+                    break;
+            }
+
+            renderProducts();
+            updateActiveFilters();
+        }
+
+        // Render products
+        function renderProducts() {
+            if (filteredProducts.length === 0) {
+                productsGrid.innerHTML = '';
+                noResults.style.display = 'block';
+                productsCount.textContent = 'No products found';
+                return;
+            }
+
+            noResults.style.display = 'none';
+            productsCount.textContent = 'Showing ' + filteredProducts.length + ' product' + (filteredProducts.length !== 1 ? 's' : '');
+
+            var html = '';
+            filteredProducts.forEach(function(product) {
+                var discount = product.originalPrice > product.price ? Math.round((1 - product.price/product.originalPrice) * 100) : 0;
+                html += '<div class="product-card" data-product-id="' + product.id + '">' +
+                    '<div class="product-image">' +
+                        '<img src="' + product.image + '" alt="' + product.name + '" loading="lazy">' +
+                        (product.deal ? '<span class="product-badge deal">Sale</span>' : '') +
+                        (product.featured ? '<span class="product-badge featured">Featured</span>' : '') +
+                    '</div>' +
+                    '<div class="product-info">' +
+                        '<span class="product-category">' + product.category + '</span>' +
+                        '<h3 class="product-name">' + product.name + '</h3>' +
+                        '<p class="product-description">' + product.description.substring(0, 80) + '...</p>' +
+                        '<div class="product-rating">' +
+                            '<span class="stars">⭐ ' + product.rating + '</span>' +
+                            '<span class="reviews">(' + product.reviews.toLocaleString() + ' reviews)</span>' +
+                        '</div>' +
+                        '<div class="product-price">' +
+                            '<span class="current-price">$' + product.price + '</span>' +
+                            (product.originalPrice > product.price ?
+                                '<span class="original-price">$' + product.originalPrice + '</span>' +
+                                '<span class="discount-badge">-' + discount + '%</span>'
+                                : '') +
+                        '</div>' +
+                        '<div class="product-stock ' + (product.stock < 20 ? 'low-stock' : '') + '">' +
+                            (product.stock < 20 ? 'Only ' + product.stock + ' left!' : 'In Stock') +
+                        '</div>' +
+                        '<div class="product-actions">' +
+                            '<a href="/chat?product=' + product.id + '" class="btn btn-small btn-outline" onclick="event.stopPropagation()">' +
+                                '🤖 Ask KAI' +
+                            '</a>' +
+                            '<a href="/product/' + product.id + '" class="btn btn-small btn-primary" onclick="event.stopPropagation()">' +
+                                'View Details' +
+                            '</a>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            });
+
+            productsGrid.innerHTML = html;
+
+            // Add click handlers to cards
+            productsGrid.querySelectorAll('.product-card').forEach(function(card) {
+                card.addEventListener('click', function() {
+                    var id = this.getAttribute('data-product-id');
+                    window.location.href = '/product/' + id;
+                });
+            });
+        }
+
+        // Update active filters display
+        function updateActiveFilters() {
+            var filters = [];
+
+            if (currentCategory !== 'all') {
+                filters.push({ type: 'category', value: currentCategory });
+            }
+            if (searchQuery) {
+                filters.push({ type: 'search', value: searchQuery });
+            }
+            if (currentSort !== 'default') {
+                var sortLabels = {
+                    'price-low': 'Price: Low to High',
+                    'price-high': 'Price: High to Low',
+                    'rating': 'Highest Rated',
+                    'popular': 'Most Popular'
+                };
+                filters.push({ type: 'sort', value: sortLabels[currentSort] });
+            }
+
+            if (filters.length > 0) {
+                activeFilters.style.display = 'flex';
+                var html = '';
+                filters.forEach(function(f) {
+                    var icon = f.type === 'category' ? '📁' : (f.type === 'search' ? '🔍' : '↕️');
+                    html += '<span class="filter-tag">' +
+                        icon + ' ' + f.value +
+                        '<button type="button" onclick="removeFilter(\'' + f.type + '\')" class="tag-remove">×</button>' +
+                    '</span>';
+                });
+                filterTags.innerHTML = html;
+            } else {
+                activeFilters.style.display = 'none';
+            }
+        }
+
+        // Remove specific filter
+        function removeFilter(type) {
+            if (type === 'category') {
+                currentCategory = 'all';
+                categoryButtons.forEach(function(btn) {
+                    btn.classList.toggle('active', btn.getAttribute('data-category') === 'all');
+                });
+            } else if (type === 'search') {
+                searchQuery = '';
+                searchInput.value = '';
+            } else if (type === 'sort') {
+                currentSort = 'default';
+                sortSelect.value = 'default';
+            }
+            applyFilters();
+        }
+
+        // Reset all filters
+        function resetFilters() {
+            currentCategory = 'all';
+            currentSort = 'default';
+            searchQuery = '';
+            searchInput.value = '';
+            sortSelect.value = 'default';
+            categoryButtons.forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-category') === 'all');
+            });
+            applyFilters();
+        }
+
+        // Event listeners
+        categoryButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                categoryButtons.forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                currentCategory = this.getAttribute('data-category');
+                applyFilters();
+            });
+        });
+
+        sortSelect.addEventListener('change', function(e) {
+            currentSort = e.target.value;
+            applyFilters();
+        });
+
+        var searchTimeout;
+        searchInput.addEventListener('input', function(e) {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+                searchQuery = e.target.value;
+                applyFilters();
+            }, 300);
+        });
+
+        document.getElementById('clear-filters').addEventListener('click', resetFilters);
+        document.getElementById('reset-filters-btn').addEventListener('click', resetFilters);
+
+        // Check URL parameters
+        function checkUrlParams() {
+            var params = new URLSearchParams(window.location.search);
+            var category = params.get('category');
+            var filter = params.get('filter');
+
+            if (category) {
+                currentCategory = category.toLowerCase();
+                categoryButtons.forEach(function(btn) {
+                    btn.classList.toggle('active', btn.getAttribute('data-category') === currentCategory);
+                });
+            }
+
+            if (filter === 'deals') {
+                allProducts = allProducts.filter(function(p) { return p.deal; });
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+</body>
+</html>

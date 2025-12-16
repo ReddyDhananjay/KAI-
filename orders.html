@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - KAI Shopping Assistant</title>
+    <meta name="description" content="View and manage your mock orders created with KAI shopping assistant.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Cursor Follower -->
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span class="logo-text">K<span class="highlight">AI</span></span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/chat" class="nav-link">Chat with KAI</a></li>
+                <li><a href="/products" class="nav-link">Products</a></li>
+                <li><a href="/orders" class="nav-link active">My Orders</a></li>
+                <li><a href="/admin" class="nav-link">Admin</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="/chat" class="btn btn-primary btn-nav">Ask KAI</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <h1 class="page-title">My Orders</h1>
+                <p class="page-description">
+                    Track your mock orders created via KAI chatbot or product pages.
+                    All orders are simulated for demonstration purposes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Orders Section -->
+    <section class="orders-section">
+        <div class="container">
+            <!-- Order Stats -->
+            <div class="order-stats" id="order-stats">
+                <div class="stat-card">
+                    <span class="stat-icon">📦</span>
+                    <div class="stat-info">
+                        <span class="stat-value" id="total-orders">0</span>
+                        <span class="stat-label">Total Orders</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">⏳</span>
+                    <div class="stat-info">
+                        <span class="stat-value" id="processing-orders">0</span>
+                        <span class="stat-label">Processing</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">🚚</span>
+                    <div class="stat-info">
+                        <span class="stat-value" id="shipped-orders">0</span>
+                        <span class="stat-label">Shipped</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">✅</span>
+                    <div class="stat-info">
+                        <span class="stat-value" id="delivered-orders">0</span>
+                        <span class="stat-label">Delivered</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="order-filters">
+                <button type="button" class="filter-tab active" data-status="all">All Orders</button>
+                <button type="button" class="filter-tab" data-status="processing">Processing</button>
+                <button type="button" class="filter-tab" data-status="shipped">Shipped</button>
+                <button type="button" class="filter-tab" data-status="delivered">Delivered</button>
+                <button type="button" class="filter-tab" data-status="cancelled">Cancelled</button>
+            </div>
+
+            <!-- Orders List -->
+            <div class="orders-list" id="orders-list">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading orders...</p>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <div class="empty-icon">📭</div>
+                <h3>No Orders Found</h3>
+                <p>You haven't placed any mock orders yet. Chat with KAI or browse products to create your first order!</p>
+                <div class="empty-actions">
+                    <a href="/chat" class="btn btn-primary">Chat with KAI</a>
+                    <a href="/products" class="btn btn-secondary">Browse Products</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">🤖</span>
+                        <span class="logo-text">K<span class="highlight">AI</span></span>
+                    </a>
+                    <p class="footer-tagline">Your Smart Retail Shopping Assistant</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/chat">Chat with KAI</a></li>
+                            <li><a href="/products">Products</a></li>
+                            <li><a href="/orders">My Orders</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 KAI Shopping Assistant by Team RTX. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cancel Modal -->
+    <div class="modal" id="cancel-modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h3>Cancel Order</h3>
+                <button type="button" class="modal-close" id="cancel-modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel this order?</p>
+                <p class="order-id-display" id="cancel-order-id"></p>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="keep-order-btn">Keep Order</button>
+                    <button type="button" class="btn btn-danger" id="confirm-cancel">Cancel Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        var allOrders = [];
+        var currentFilter = 'all';
+        var orderToCancel = null;
+
+        // DOM elements
+        var ordersList = document.getElementById('orders-list');
+        var emptyState = document.getElementById('empty-state');
+        var filterTabs = document.querySelectorAll('.filter-tab');
+
+        // Load orders
+        function loadOrders() {
+            fetch('/api/orders')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                allOrders = data.orders || [];
+                updateStats();
+                renderOrders();
+            })
+            .catch(function(error) {
+                console.error('Error loading orders:', error);
+                ordersList.innerHTML = '<p class="error-message">Failed to load orders. Please try again later.</p>';
+            });
+        }
+
+        // Update stats
+        function updateStats() {
+            var total = allOrders.length;
+            var processing = allOrders.filter(function(o) { return o.status === 'Processing'; }).length;
+            var shipped = allOrders.filter(function(o) { return o.status === 'Shipped'; }).length;
+            var delivered = allOrders.filter(function(o) { return o.status === 'Delivered'; }).length;
+
+            document.getElementById('total-orders').textContent = total;
+            document.getElementById('processing-orders').textContent = processing;
+            document.getElementById('shipped-orders').textContent = shipped;
+            document.getElementById('delivered-orders').textContent = delivered;
+        }
+
+        // Get status icon
+        function getStatusIcon(status) {
+            var icons = {
+                'Processing': '⏳',
+                'Shipped': '🚚',
+                'Delivered': '✅',
+                'Cancelled': '❌'
+            };
+            return icons[status] || '📦';
+        }
+
+        // Render timeline
+        function renderTimeline(order) {
+            if (order.status === 'Cancelled') {
+                return '<div class="timeline cancelled">' +
+                    '<div class="timeline-step completed">' +
+                        '<span class="step-dot"></span>' +
+                        '<span class="step-label">Ordered</span>' +
+                    '</div>' +
+                    '<div class="timeline-step cancelled">' +
+                        '<span class="step-dot"></span>' +
+                        '<span class="step-label">Cancelled</span>' +
+                    '</div>' +
+                '</div>';
+            }
+
+            var steps = [
+                { key: 'ordered', label: 'Ordered', completed: true },
+                { key: 'processing', label: 'Processing', completed: ['Processing', 'Shipped', 'Delivered'].indexOf(order.status) !== -1 },
+                { key: 'shipped', label: 'Shipped', completed: ['Shipped', 'Delivered'].indexOf(order.status) !== -1 },
+                { key: 'delivered', label: 'Delivered', completed: order.status === 'Delivered' }
+            ];
+
+            var html = '<div class="timeline">';
+            steps.forEach(function(step, index) {
+                html += '<div class="timeline-step ' + (step.completed ? 'completed' : '') + (index > 0 ? ' has-line' : '') + '">' +
+                    '<span class="step-dot"></span>' +
+                    '<span class="step-label">' + step.label + '</span>' +
+                '</div>';
+            });
+            html += '</div>';
+            return html;
+        }
+
+        // Render orders
+        function renderOrders() {
+            var filteredOrders = allOrders;
+
+            if (currentFilter !== 'all') {
+                filteredOrders = allOrders.filter(function(o) {
+                    return o.status.toLowerCase() === currentFilter.toLowerCase();
+                });
+            }
+
+            if (filteredOrders.length === 0) {
+                ordersList.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            var html = '';
+            filteredOrders.forEach(function(order) {
+                var statusClass = order.status.toLowerCase();
+                var orderDate = new Date(order.orderDate);
+                var estimatedDelivery = new Date(order.estimatedDelivery);
+                var deliveredDate = order.deliveredDate ? new Date(order.deliveredDate) : null;
+
+                html += '<div class="order-card ' + statusClass + '">' +
+                    '<div class="order-header">' +
+                        '<div class="order-id-section">' +
+                            '<span class="order-id">' + order.id + '</span>' +
+                            '<span class="order-date">Ordered ' + orderDate.toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric'
+                            }) + '</span>' +
+                        '</div>' +
+                        '<div class="order-status">' +
+                            '<span class="status-badge ' + statusClass + '">' +
+                                getStatusIcon(order.status) + ' ' + order.status +
+                            '</span>' +
+                        '</div>' +
+                    '</div>' +
+
+                    '<div class="order-body">' +
+                        '<div class="order-product">' +
+                            '<img src="' + order.productImage + '" alt="' + order.productName + '">' +
+                            '<div class="product-details">' +
+                                '<h4>' + order.productName + '</h4>' +
+                                '<p>Quantity: ' + order.quantity + '</p>' +
+                                '<p class="order-price">$' + order.price.toFixed(2) + '</p>' +
+                            '</div>' +
+                        '</div>' +
+
+                        '<div class="order-info">' +
+                            '<div class="info-row">' +
+                                '<span class="info-label">Created via:</span>' +
+                                '<span class="info-value">' + (order.createdVia === 'chatbot' ? '🤖 KAI Chatbot' : '🛒 Product Page') + '</span>' +
+                            '</div>' +
+                            '<div class="info-row">' +
+                                '<span class="info-label">Shipping to:</span>' +
+                                '<span class="info-value">' + order.shippingAddress + '</span>' +
+                            '</div>' +
+                            '<div class="info-row">' +
+                                '<span class="info-label">' + (order.status === 'Delivered' ? 'Delivered on:' : 'Estimated delivery:') + '</span>' +
+                                '<span class="info-value ' + (order.status === 'Delivered' ? 'delivered' : '') + '">' +
+                                    (deliveredDate
+                                        ? deliveredDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+                                        : estimatedDelivery.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })) +
+                                '</span>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+
+                    '<div class="order-timeline">' +
+                        renderTimeline(order) +
+                    '</div>' +
+
+                    '<div class="order-actions">' +
+                        '<a href="/product/' + order.productId + '" class="btn btn-small btn-outline">View Product</a>' +
+                        '<a href="/chat?product=' + order.productId + '" class="btn btn-small btn-outline">Ask KAI</a>' +
+                        (order.status !== 'Delivered' && order.status !== 'Cancelled'
+                            ? '<button type="button" class="btn btn-small btn-danger-outline" data-order-id="' + order.id + '">Cancel Order</button>'
+                            : '') +
+                    '</div>' +
+                '</div>';
+            });
+
+            ordersList.innerHTML = html;
+
+            // Add cancel button handlers
+            ordersList.querySelectorAll('[data-order-id]').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    openCancelModal(this.getAttribute('data-order-id'));
+                });
+            });
+        }
+
+        // Filter tabs
+        filterTabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                filterTabs.forEach(function(t) { t.classList.remove('active'); });
+                this.classList.add('active');
+                currentFilter = this.getAttribute('data-status');
+                renderOrders();
+            });
+        });
+
+        // Cancel modal
+        function openCancelModal(orderId) {
+            orderToCancel = orderId;
+            document.getElementById('cancel-order-id').textContent = orderId;
+            document.getElementById('cancel-modal').classList.add('open');
+        }
+
+        function closeCancelModal() {
+            orderToCancel = null;
+            document.getElementById('cancel-modal').classList.remove('open');
+        }
+
+        document.getElementById('confirm-cancel').addEventListener('click', function() {
+            if (!orderToCancel) return;
+
+            fetch('/api/orders/' + orderToCancel, {
+                method: 'DELETE'
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    closeCancelModal();
+                    loadOrders();
+                } else {
+                    alert('Failed to cancel order. Please try again.');
+                }
+            })
+            .catch(function(error) {
+                console.error('Error cancelling order:', error);
+                alert('Failed to cancel order. Please try again.');
+            });
+        });
+
+        document.getElementById('cancel-modal-close').addEventListener('click', closeCancelModal);
+        document.getElementById('keep-order-btn').addEventListener('click', closeCancelModal);
+
+        // Close modal on outside click
+        document.getElementById('cancel-modal').addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                closeCancelModal();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadOrders);
+    </script>
+</body>
+</html>

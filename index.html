@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team RTX - AI Innovation | KAI - Voice of Commerce</title>
-    <meta name="description" content="Team RTX from SRM University, Andhra Pradesh presents KAI - The Voice of Commerce, an AI-powered conversational sales assistant for the retail industry.">
+    <title>KAI - Your Smart Retail Shopping Assistant</title>
+    <meta name="description" content="KAI is your AI-powered shopping assistant. Get personalized recommendations, find deals, and shop smarter with intelligent product guidance.">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,21 +13,24 @@
 <body>
     <!-- Cursor Follower -->
     <div class="cursor-follower"></div>
-    
+
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="logo">
-                <span class="logo-text">TEAM <span class="highlight">RTX</span></span>
-            </div>
+            <a href="/" class="logo">
+                <span class="logo-icon">🤖</span>
+                <span class="logo-text">K<span class="highlight">AI</span></span>
+            </a>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#kai" class="nav-link">KAI</a></li>
-                <li><a href="#features" class="nav-link">Features</a></li>
-                <li><a href="#team" class="nav-link">Team</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="/" class="nav-link active">Home</a></li>
+                <li><a href="/chat" class="nav-link">Chat with KAI</a></li>
+                <li><a href="/products" class="nav-link">Products</a></li>
+                <li><a href="/orders" class="nav-link">My Orders</a></li>
+                <li><a href="/admin" class="nav-link">Admin</a></li>
             </ul>
+            <div class="nav-actions">
+                <a href="/chat" class="btn btn-primary btn-nav">Start Chat</a>
+            </div>
             <div class="hamburger" id="hamburger">
                 <span></span>
                 <span></span>
@@ -37,39 +40,48 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
+    <section class="hero">
         <div class="hero-background">
             <div class="gradient-orb orb-1"></div>
             <div class="gradient-orb orb-2"></div>
             <div class="gradient-orb orb-3"></div>
         </div>
         <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">
-                    <span class="title-line fade-in-up">INNOVATING</span>
-                    <span class="title-line fade-in-up delay-1">THE FUTURE</span>
-                    <span class="title-line fade-in-up delay-2">OF <span class="highlight-gradient">AI</span></span>
-                </h1>
-                <p class="hero-subtitle fade-in-up delay-3">
-                    Pioneering conversational AI solutions for the retail industry
-                </p>
-                <div class="hero-cta fade-in-up delay-4">
-                    <a href="#kai" class="btn btn-primary">Discover KAI</a>
-                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-                </div>
+            <div class="hero-badge fade-in-up">
+                <span class="badge-icon">✨</span>
+                <span>Powered by Advanced AI</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line fade-in-up">Meet <span class="highlight-gradient">KAI</span></span>
+                <span class="title-line fade-in-up delay-1">Your Smart Retail</span>
+                <span class="title-line fade-in-up delay-2">Shopping Assistant</span>
+            </h1>
+            <p class="hero-subtitle fade-in-up delay-3">
+                Experience the future of shopping with AI-powered recommendations,
+                real-time assistance, and personalized product discovery.
+            </p>
+            <div class="hero-cta fade-in-up delay-4">
+                <a href="/chat" class="btn btn-primary btn-large">
+                    <span class="btn-icon">💬</span>
+                    Start Chat with KAI
+                </a>
+                <a href="/products" class="btn btn-secondary btn-large">
+                    <span class="btn-icon">🛍️</span>
+                    Browse Products
+                </a>
             </div>
             <div class="hero-stats fade-in-up delay-5">
-                <div class="stat-item">
-                    <div class="stat-number" data-target="100">0</div>
-                    <div class="stat-label">% AI Powered</div>
-                </div>
                 <div class="stat-item">
                     <div class="stat-number" data-target="24">0</div>
                     <div class="stat-label">/ 7 Available</div>
                 </div>
                 <div class="stat-item">
+                    <div class="stat-number" data-target="100">0</div>
+                    <div class="stat-label">+ Products</div>
+                </div>
+                <div class="stat-item">
                     <div class="stat-number" data-target="99">0</div>
-                    <div class="stat-label">% Accuracy</div>
+                    <div class="stat-label">% Satisfaction</div>
                 </div>
             </div>
         </div>
@@ -79,138 +91,28 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
+    <!-- How KAI Helps Section -->
+    <section class="features-section" id="features">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">WHO WE ARE</span>
-                <h2 class="section-title">Team RTX</h2>
-            </div>
-            <div class="about-grid">
-                <div class="about-image-container">
-                    <div class="about-image-wrapper">
-                        <div class="image-placeholder">
-                            <div class="rtx-logo">RTX</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-content">
-                    <h3 class="about-subtitle">Leading AI Innovation</h3>
-                    <p class="about-text">
-                        We are an elite team of AI innovators from <strong>SRM University, Andhra Pradesh</strong>, 
-                        dedicated to revolutionizing how businesses interact with customers through cutting-edge 
-                        artificial intelligence.
-                    </p>
-                    <p class="about-text">
-                        Our mission is to bridge the gap between traditional retail and the future of commerce 
-                        by leveraging the power of conversational AI, machine learning, and natural language processing.
-                    </p>
-                    <div class="about-highlights">
-                        <div class="highlight-item">
-                            <div class="highlight-icon">🎓</div>
-                            <div class="highlight-text">
-                                <h4>Academic Excellence</h4>
-                                <p>Top-tier research institution</p>
-                            </div>
-                        </div>
-                        <div class="highlight-item">
-                            <div class="highlight-icon">🚀</div>
-                            <div class="highlight-text">
-                                <h4>Innovation First</h4>
-                                <p>Pushing technological boundaries</p>
-                            </div>
-                        </div>
-                        <div class="highlight-item">
-                            <div class="highlight-icon">🤝</div>
-                            <div class="highlight-text">
-                                <h4>Industry Impact</h4>
-                                <p>Real-world solutions</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- KAI Project Section -->
-    <section id="kai" class="kai-section">
-        <div class="container">
-            <div class="kai-header">
-                <span class="section-tag">OUR FLAGSHIP PROJECT</span>
-                <h2 class="kai-title">
-                    <span class="kai-name">KAI</span>
-                    <span class="kai-tagline">The Voice of Commerce</span>
-                </h2>
-            </div>
-            <div class="kai-content">
-                <div class="kai-description">
-                    <p class="kai-text-large">
-                        KAI is an <span class="text-highlight">AI-powered conversational sales assistant</span> 
-                        designed specifically for the retail industry. It transforms customer interactions 
-                        into seamless, intelligent conversations that drive sales and enhance satisfaction.
-                    </p>
-                </div>
-                <div class="kai-video-container">
-                    <div class="video-placeholder">
-                        <div class="play-button">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <div class="video-text">Watch KAI in Action</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">CAPABILITIES</span>
-                <h2 class="section-title">What Makes KAI Special</h2>
+                <span class="section-tag">WHY CHOOSE KAI</span>
+                <h2 class="section-title">How KAI Helps You Shop Smarter</h2>
+                <p class="section-description">
+                    KAI combines cutting-edge AI technology with deep product knowledge
+                    to provide you with an unparalleled shopping experience.
+                </p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3 class="feature-title">Natural Language Processing</h3>
+                    <h3 class="feature-title">AI Chat Assistant</h3>
                     <p class="feature-description">
-                        Advanced NLP algorithms understand customer intent with human-like comprehension, 
-                        making every interaction feel natural and intuitive.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Real-Time Responses</h3>
-                    <p class="feature-description">
-                        Lightning-fast processing delivers instant, accurate responses to customer queries, 
-                        eliminating wait times and improving satisfaction.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 16V8C21 6.89543 20.1046 6 19 6H5C3.89543 6 3 6.89543 3 8V16C3 17.1046 3.89543 18 5 18H19C20.1046 18 21 17.1046 21 16Z" stroke="currentColor" stroke-width="2"/>
-                            <path d="M3 10H21" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Multi-Channel Integration</h3>
-                    <p class="feature-description">
-                        Seamlessly integrates across web, mobile, and in-store systems, providing 
-                        consistent experiences across all customer touchpoints.
+                        Have natural conversations with KAI to find exactly what you need.
+                        Ask questions, get recommendations, and receive instant assistance.
                     </p>
                 </div>
                 <div class="feature-card">
@@ -218,13 +120,13 @@
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z" stroke="currentColor" stroke-width="2"/>
                             <path d="M19 19C19 20.1046 18.1046 21 17 21C15.8954 21 15 20.1046 15 19C15 17.8954 15.8954 17 17 17C18.1046 17 19 17.8954 19 19Z" stroke="currentColor" stroke-width="2"/>
-                            <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H16.4C16.8693 16.009 17.3268 15.8526 17.6925 15.5583C18.0581 15.264 18.3086 14.8504 18.4 14.39L20 6H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 1H5L7.68 14.39C7.77 14.85 8.02 15.26 8.39 15.56C8.75 15.85 9.21 16.01 9.68 16H16.4C16.87 16.01 17.33 15.85 17.69 15.56C18.06 15.26 18.31 14.85 18.4 14.39L20 6H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3 class="feature-title">Smart Product Recommendations</h3>
+                    <h3 class="feature-title">Smart Product Assistance</h3>
                     <p class="feature-description">
-                        Machine learning algorithms analyze customer preferences and behavior to suggest 
-                        personalized products that increase conversion rates.
+                        Get detailed product information, compare items, and receive
+                        personalized suggestions based on your preferences and needs.
                     </p>
                 </div>
                 <div class="feature-card">
@@ -233,169 +135,96 @@
                             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3 class="feature-title">Sentiment Analysis</h3>
+                    <h3 class="feature-title">Personalized Recommendations</h3>
                     <p class="feature-description">
-                        Advanced emotional intelligence detects customer sentiment in real-time, 
-                        adapting responses to provide empathetic and effective support.
+                        KAI learns your style and preferences to suggest products
+                        you'll love. Get curated picks tailored just for you.
                     </p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16 21V5C16 3.89543 16.8954 3 18 3H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M8 21V5C8 3.89543 7.10457 3 6 3H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <line x1="12" y1="3" x2="12" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                            <line x1="1" y1="10" x2="23" y2="10" stroke="currentColor" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3 class="feature-title">Analytics Dashboard</h3>
+                    <h3 class="feature-title">Mock Order System</h3>
                     <p class="feature-description">
-                        Comprehensive insights into customer interactions, sales patterns, and performance 
-                        metrics help businesses optimize their strategies.
+                        Test the full shopping experience with our mock order system.
+                        Create orders, track deliveries, and manage your purchases.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Team Section -->
-    <section id="team" class="team">
+    <!-- Featured Products Section -->
+    <section class="products-section" id="featured-products">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">THE INNOVATORS</span>
-                <h2 class="section-title">Meet Team RTX</h2>
+                <span class="section-tag">FEATURED</span>
+                <h2 class="section-title">Top Picks for You</h2>
+                <p class="section-description">
+                    Discover our most popular products, handpicked by KAI based on customer favorites.
+                </p>
             </div>
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-avatar">
-                            <span>TL</span>
-                        </div>
-                    </div>
-                    <h3 class="member-name">Team Leader</h3>
-                    <p class="member-role">Project Lead & AI Architect</p>
-                    <div class="member-social">
-                        <a href="#" class="social-link">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                    </div>
+            <div class="products-grid" id="featured-products-grid">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading products...</p>
                 </div>
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-avatar">
-                            <span>ML</span>
-                        </div>
-                    </div>
-                    <h3 class="member-name">ML Engineer</h3>
-                    <p class="member-role">Machine Learning Specialist</p>
-                    <div class="member-social">
-                        <a href="#" class="social-link">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-avatar">
-                            <span>FD</span>
-                        </div>
-                    </div>
-                    <h3 class="member-name">Frontend Developer</h3>
-                    <p class="member-role">UI/UX & Integration</p>
-                    <div class="member-social">
-                        <a href="#" class="social-link">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-avatar">
-                            <span>BD</span>
-                        </div>
-                    </div>
-                    <h3 class="member-name">Backend Developer</h3>
-                    <p class="member-role">Infrastructure & API Design</p>
-                    <div class="member-social">
-                        <a href="#" class="social-link">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6 9H2V21H6V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+            </div>
+            <div class="section-cta">
+                <a href="/products" class="btn btn-secondary btn-large">
+                    View All Products
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-arrow">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <!-- Hot Deals Section -->
+    <section class="deals-section" id="deals">
         <div class="container">
-            <div class="contact-content">
-                <div class="contact-info">
-                    <span class="section-tag">LET'S CONNECT</span>
-                    <h2 class="contact-title">Get in Touch</h2>
-                    <p class="contact-description">
-                        Interested in KAI or want to collaborate with Team RTX? 
-                        We'd love to hear from you. Let's build the future of retail together.
+            <div class="deals-header">
+                <div class="deals-title-wrapper">
+                    <span class="section-tag">LIMITED TIME</span>
+                    <h2 class="section-title">🔥 Hot Deals</h2>
+                </div>
+                <a href="/products?filter=deals" class="btn btn-outline">See All Deals</a>
+            </div>
+            <div class="deals-grid" id="deals-grid">
+                <!-- Deals will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <div class="cta-text">
+                    <h2 class="cta-title">Ready to Shop Smarter?</h2>
+                    <p class="cta-description">
+                        Start a conversation with KAI and discover a new way to find
+                        exactly what you're looking for.
                     </p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4>Location</h4>
-                                <p>SRM University, Andhra Pradesh<br>Neerukonda, Mangalagiri Mandal<br>Guntur District, AP 522240</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4>Email</h4>
-                                <p>teamrtx@srmap.edu.in</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <div class="contact-form-container">
-                    <form class="contact-form" id="contact-form">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="subject" name="subject" placeholder="Subject" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full">Send Message</button>
-                    </form>
+                <div class="cta-actions">
+                    <a href="/chat" class="btn btn-primary btn-large">
+                        <span class="btn-icon">💬</span>
+                        Chat with KAI Now
+                    </a>
                 </div>
+            </div>
+            <div class="cta-decoration">
+                <div class="floating-icon icon-1">🎧</div>
+                <div class="floating-icon icon-2">⌚</div>
+                <div class="floating-icon icon-3">👟</div>
+                <div class="floating-icon icon-4">🎒</div>
+                <div class="floating-icon icon-5">🕶️</div>
             </div>
         </div>
     </section>
@@ -404,37 +233,169 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">
-                    <span class="logo-text">TEAM <span class="highlight">RTX</span></span>
-                    <p class="footer-tagline">Innovating the future of AI-powered commerce</p>
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">🤖</span>
+                        <span class="logo-text">K<span class="highlight">AI</span></span>
+                    </a>
+                    <p class="footer-tagline">Your Smart Retail Shopping Assistant</p>
+                    <p class="footer-description">
+                        Powered by advanced AI technology to help you shop smarter,
+                        find better deals, and discover products you'll love.
+                    </p>
                 </div>
                 <div class="footer-links">
                     <div class="footer-column">
                         <h4>Navigation</h4>
                         <ul>
-                            <li><a href="#home">Home</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#kai">KAI</a></li>
-                            <li><a href="#features">Features</a></li>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/chat">Chat with KAI</a></li>
+                            <li><a href="/products">Products</a></li>
+                            <li><a href="/orders">My Orders</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
-                        <h4>Connect</h4>
+                        <h4>Categories</h4>
                         <ul>
-                            <li><a href="#team">Team</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                            <li><a href="#">LinkedIn</a></li>
-                            <li><a href="#">GitHub</a></li>
+                            <li><a href="/products?category=electronics">Electronics</a></li>
+                            <li><a href="/products?category=wearables">Wearables</a></li>
+                            <li><a href="/products?category=accessories">Accessories</a></li>
+                            <li><a href="/products?category=bags">Bags</a></li>
+                            <li><a href="/products?category=shoes">Shoes</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="/chat">Ask KAI</a></li>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Shipping Info</a></li>
+                            <li><a href="#">Returns</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Team RTX, SRM University AP. All rights reserved.</p>
+                <p>&copy; 2024 KAI Shopping Assistant by Team RTX. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Load featured products
+        function loadFeaturedProducts() {
+            fetch('/api/products?featured=true')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                var grid = document.getElementById('featured-products-grid');
+
+                if (data.products && data.products.length > 0) {
+                    var html = '';
+                    data.products.slice(0, 6).forEach(function(product) {
+                        html += '<div class="product-card" data-product-id="' + product.id + '">' +
+                            '<div class="product-image">' +
+                                '<img src="' + product.image + '" alt="' + product.name + '" loading="lazy">' +
+                                (product.deal ? '<span class="product-badge deal">Sale</span>' : '') +
+                                (product.featured ? '<span class="product-badge featured">Featured</span>' : '') +
+                            '</div>' +
+                            '<div class="product-info">' +
+                                '<span class="product-category">' + product.category + '</span>' +
+                                '<h3 class="product-name">' + product.name + '</h3>' +
+                                '<div class="product-rating">' +
+                                    '<span class="stars">⭐ ' + product.rating + '</span>' +
+                                    '<span class="reviews">(' + product.reviews.toLocaleString() + ' reviews)</span>' +
+                                '</div>' +
+                                '<div class="product-price">' +
+                                    '<span class="current-price">$' + product.price + '</span>' +
+                                    (product.originalPrice > product.price ?
+                                        '<span class="original-price">$' + product.originalPrice + '</span>' : '') +
+                                '</div>' +
+                                '<div class="product-actions">' +
+                                    '<a href="/chat?product=' + product.id + '" class="btn btn-small btn-outline" onclick="event.stopPropagation()">' +
+                                        'Ask KAI' +
+                                    '</a>' +
+                                    '<a href="/product/' + product.id + '" class="btn btn-small btn-primary" onclick="event.stopPropagation()">' +
+                                        'View Details' +
+                                    '</a>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+                    });
+                    grid.innerHTML = html;
+
+                    // Add click handlers
+                    grid.querySelectorAll('.product-card').forEach(function(card) {
+                        card.addEventListener('click', function() {
+                            var id = this.getAttribute('data-product-id');
+                            window.location.href = '/product/' + id;
+                        });
+                    });
+                } else {
+                    grid.innerHTML = '<p class="no-products">No featured products available.</p>';
+                }
+            })
+            .catch(function(error) {
+                console.error('Error loading products:', error);
+                document.getElementById('featured-products-grid').innerHTML =
+                    '<p class="error-message">Failed to load products. Please try again later.</p>';
+            });
+        }
+
+        // Load deals
+        function loadDeals() {
+            fetch('/api/products?deal=true')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                var grid = document.getElementById('deals-grid');
+
+                if (data.products && data.products.length > 0) {
+                    var html = '';
+                    data.products.slice(0, 4).forEach(function(product) {
+                        var savings = (product.originalPrice - product.price).toFixed(2);
+                        var savingsPercent = Math.round((1 - product.price / product.originalPrice) * 100);
+
+                        html += '<div class="deal-card" data-product-id="' + product.id + '">' +
+                            '<div class="deal-badge">-' + savingsPercent + '%</div>' +
+                            '<div class="deal-image">' +
+                                '<img src="' + product.image + '" alt="' + product.name + '" loading="lazy">' +
+                            '</div>' +
+                            '<div class="deal-info">' +
+                                '<span class="deal-category">' + product.category + '</span>' +
+                                '<h3 class="deal-name">' + product.name + '</h3>' +
+                                '<div class="deal-price">' +
+                                    '<span class="deal-current">$' + product.price + '</span>' +
+                                    '<span class="deal-original">$' + product.originalPrice + '</span>' +
+                                '</div>' +
+                                '<p class="deal-savings">You save $' + savings + '!</p>' +
+                            '</div>' +
+                        '</div>';
+                    });
+                    grid.innerHTML = html;
+
+                    // Add click handlers
+                    grid.querySelectorAll('.deal-card').forEach(function(card) {
+                        card.addEventListener('click', function() {
+                            var id = this.getAttribute('data-product-id');
+                            window.location.href = '/product/' + id;
+                        });
+                    });
+                }
+            })
+            .catch(function(error) {
+                console.error('Error loading deals:', error);
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFeaturedProducts();
+            loadDeals();
+        });
+    </script>
 </body>
 </html>

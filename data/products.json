@@ -1,0 +1,288 @@
+{
+  "products": [
+    {
+      "id": "prod-001",
+      "name": "ProMax Wireless Earbuds",
+      "category": "Electronics",
+      "price": 79.99,
+      "originalPrice": 129.99,
+      "description": "Premium wireless earbuds with active noise cancellation, 30-hour battery life, and crystal-clear sound quality. Features touch controls and IPX5 water resistance.",
+      "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400",
+      "rating": 4.8,
+      "reviews": 2456,
+      "stock": 150,
+      "specs": {
+        "Battery Life": "30 hours (with case)",
+        "Connectivity": "Bluetooth 5.3",
+        "Driver Size": "12mm",
+        "Water Resistance": "IPX5",
+        "Weight": "5.2g per earbud"
+      },
+      "featured": true,
+      "deal": true
+    },
+    {
+      "id": "prod-002",
+      "name": "SmartWatch Pro X",
+      "category": "Wearables",
+      "price": 249.99,
+      "originalPrice": 349.99,
+      "description": "Advanced smartwatch with health monitoring, GPS tracking, and 7-day battery life. Features AMOLED display and 100+ workout modes.",
+      "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",
+      "rating": 4.7,
+      "reviews": 1823,
+      "stock": 75,
+      "specs": {
+        "Display": "1.4\" AMOLED",
+        "Battery Life": "7 days",
+        "Water Resistance": "5 ATM",
+        "Sensors": "Heart rate, SpO2, GPS",
+        "Compatibility": "iOS & Android"
+      },
+      "featured": true,
+      "deal": true
+    },
+    {
+      "id": "prod-003",
+      "name": "Urban Explorer Backpack",
+      "category": "Bags",
+      "price": 89.99,
+      "originalPrice": 119.99,
+      "description": "Durable and stylish backpack with laptop compartment, anti-theft design, and USB charging port. Perfect for daily commutes and travel.",
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
+      "rating": 4.6,
+      "reviews": 987,
+      "stock": 200,
+      "specs": {
+        "Capacity": "25L",
+        "Laptop Compartment": "Up to 15.6\"",
+        "Material": "Water-resistant polyester",
+        "Features": "USB port, anti-theft pocket",
+        "Weight": "0.9kg"
+      },
+      "featured": true,
+      "deal": false
+    },
+    {
+      "id": "prod-004",
+      "name": "Classic Leather Belt",
+      "category": "Accessories",
+      "price": 45.99,
+      "originalPrice": 59.99,
+      "description": "Genuine leather belt with classic buckle design. Handcrafted for durability and timeless style.",
+      "image": "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=400",
+      "rating": 4.5,
+      "reviews": 654,
+      "stock": 300,
+      "specs": {
+        "Material": "Genuine leather",
+        "Buckle": "Stainless steel",
+        "Width": "3.5cm",
+        "Sizes": "S, M, L, XL",
+        "Care": "Leather conditioner recommended"
+      },
+      "featured": false,
+      "deal": true
+    },
+    {
+      "id": "prod-005",
+      "name": "RunPro Athletic Shoes",
+      "category": "Shoes",
+      "price": 129.99,
+      "originalPrice": 179.99,
+      "description": "High-performance running shoes with responsive cushioning and breathable mesh upper. Designed for maximum comfort on long runs.",
+      "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
+      "rating": 4.9,
+      "reviews": 3421,
+      "stock": 120,
+      "specs": {
+        "Upper": "Breathable mesh",
+        "Sole": "Responsive foam",
+        "Drop": "8mm",
+        "Weight": "280g",
+        "Best For": "Road running, training"
+      },
+      "featured": true,
+      "deal": true
+    },
+    {
+      "id": "prod-006",
+      "name": "Portable Bluetooth Speaker",
+      "category": "Electronics",
+      "price": 59.99,
+      "originalPrice": 89.99,
+      "description": "Compact wireless speaker with powerful 360° sound, 20-hour battery, and waterproof design. Perfect for outdoor adventures.",
+      "image": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400",
+      "rating": 4.6,
+      "reviews": 1567,
+      "stock": 180,
+      "specs": {
+        "Power": "20W",
+        "Battery Life": "20 hours",
+        "Water Resistance": "IP67",
+        "Connectivity": "Bluetooth 5.0",
+        "Weight": "540g"
+      },
+      "featured": true,
+      "deal": false
+    },
+    {
+      "id": "prod-007",
+      "name": "Fitness Tracker Band",
+      "category": "Wearables",
+      "price": 49.99,
+      "originalPrice": 69.99,
+      "description": "Lightweight fitness tracker with heart rate monitoring, sleep tracking, and 14-day battery life. Water-resistant and comfortable for 24/7 wear.",
+      "image": "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=400",
+      "rating": 4.4,
+      "reviews": 2134,
+      "stock": 250,
+      "specs": {
+        "Display": "0.96\" OLED",
+        "Battery Life": "14 days",
+        "Water Resistance": "5 ATM",
+        "Sensors": "Heart rate, accelerometer",
+        "Weight": "23g"
+      },
+      "featured": false,
+      "deal": true
+    },
+    {
+      "id": "prod-008",
+      "name": "Canvas Messenger Bag",
+      "category": "Bags",
+      "price": 65.99,
+      "originalPrice": 85.99,
+      "description": "Vintage-style canvas messenger bag with adjustable strap and multiple compartments. Ideal for work or casual outings.",
+      "image": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400",
+      "rating": 4.5,
+      "reviews": 876,
+      "stock": 90,
+      "specs": {
+        "Material": "Canvas with leather trim",
+        "Capacity": "12L",
+        "Laptop Fit": "Up to 13\"",
+        "Closure": "Magnetic snap + zipper",
+        "Strap": "Adjustable shoulder strap"
+      },
+      "featured": false,
+      "deal": false
+    },
+    {
+      "id": "prod-009",
+      "name": "Designer Sunglasses",
+      "category": "Accessories",
+      "price": 159.99,
+      "originalPrice": 199.99,
+      "description": "Polarized sunglasses with UV400 protection and lightweight titanium frame. Classic aviator style for timeless elegance.",
+      "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400",
+      "rating": 4.7,
+      "reviews": 1234,
+      "stock": 65,
+      "specs": {
+        "Lens": "Polarized, UV400",
+        "Frame": "Titanium alloy",
+        "Style": "Aviator",
+        "Weight": "28g",
+        "Includes": "Case and cleaning cloth"
+      },
+      "featured": true,
+      "deal": false
+    },
+    {
+      "id": "prod-010",
+      "name": "Casual Canvas Sneakers",
+      "category": "Shoes",
+      "price": 54.99,
+      "originalPrice": 74.99,
+      "description": "Classic canvas sneakers with comfortable cushioned insole. Versatile design for everyday casual wear.",
+      "image": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=400",
+      "rating": 4.3,
+      "reviews": 1987,
+      "stock": 320,
+      "specs": {
+        "Upper": "Canvas",
+        "Sole": "Vulcanized rubber",
+        "Insole": "Memory foam",
+        "Closure": "Lace-up",
+        "Available Colors": "White, Black, Navy"
+      },
+      "featured": false,
+      "deal": true
+    },
+    {
+      "id": "prod-011",
+      "name": "Noise-Canceling Headphones",
+      "category": "Electronics",
+      "price": 199.99,
+      "originalPrice": 299.99,
+      "description": "Premium over-ear headphones with adaptive noise cancellation, 40-hour battery, and Hi-Res audio certification.",
+      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
+      "rating": 4.8,
+      "reviews": 3567,
+      "stock": 85,
+      "specs": {
+        "Driver": "40mm custom drivers",
+        "Battery Life": "40 hours",
+        "ANC": "Adaptive noise cancellation",
+        "Connectivity": "Bluetooth 5.2 + 3.5mm",
+        "Weight": "254g"
+      },
+      "featured": true,
+      "deal": true
+    },
+    {
+      "id": "prod-012",
+      "name": "Smart Fitness Scale",
+      "category": "Wearables",
+      "price": 69.99,
+      "originalPrice": 99.99,
+      "description": "Smart scale with body composition analysis, BMI calculation, and app connectivity. Supports multiple user profiles.",
+      "image": "https://images.unsplash.com/photo-1576191321963-4de90ccae5a9?w=400",
+      "rating": 4.5,
+      "reviews": 1456,
+      "stock": 140,
+      "specs": {
+        "Metrics": "Weight, BMI, body fat, muscle mass",
+        "Connectivity": "Bluetooth + WiFi",
+        "Profiles": "Up to 8 users",
+        "Platform": "Tempered glass",
+        "Max Weight": "180kg"
+      },
+      "featured": false,
+      "deal": false
+    }
+  ],
+  "categories": [
+    {
+      "id": "electronics",
+      "name": "Electronics",
+      "icon": "📱",
+      "description": "Gadgets and tech accessories"
+    },
+    {
+      "id": "accessories",
+      "name": "Accessories",
+      "icon": "⌚",
+      "description": "Stylish accessories for every occasion"
+    },
+    {
+      "id": "wearables",
+      "name": "Wearables",
+      "icon": "⌚",
+      "description": "Smart watches and fitness trackers"
+    },
+    {
+      "id": "bags",
+      "name": "Bags",
+      "icon": "🎒",
+      "description": "Backpacks, messenger bags, and more"
+    },
+    {
+      "id": "shoes",
+      "name": "Shoes",
+      "icon": "👟",
+      "description": "Footwear for every activity"
+    }
+  ]
+}
